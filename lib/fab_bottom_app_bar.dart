@@ -42,6 +42,20 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     setState(() {
       _selectedIndex = index;
     });
+
+//    if (index == 0) {
+//      _selectedIndex = 0;
+//      Navigator.push(
+//        context,
+//        MaterialPageRoute(builder: (context) => HomePage()),
+//      );
+//    } else if (index == 1) {
+//      _selectedIndex = 1;
+//      Navigator.push(
+//        context,
+//        MaterialPageRoute(builder: (context) => Profile()),
+//      );
+//    }
   }
 
   @override
