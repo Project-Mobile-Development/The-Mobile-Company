@@ -28,7 +28,7 @@ class _BoatListingState extends State<BoatListing> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 60.0),
                         child: IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: Icon(Icons.arrow_downward),
                           onPressed: () {
                             Navigator.pop(context);
                           },
