@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           Expanded(
                               child: Text(
-                            'Try "Amsterdam',
+                            'Search',
                             style: TextStyle(color: Color(0xFFFCFCFC)),
                           )),
                           IconButton(
@@ -91,11 +91,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: Image.asset(
-                        'assets/images/name.png',
-                        height: 40.0,
-                        color: Colors.white,
-                      )),
+                      ),
                 )
               ],
             ),
@@ -109,11 +105,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: Image.asset(
-                        'assets/images/name.png',
-                        height: 40.0,
-                        color: Colors.white,
-                      )),
+                      ),
                 )
               ],
             ),
