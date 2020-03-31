@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'boat_model_list.dart';
+
 class BoatOverviewScreen extends StatefulWidget {
   @override
   _BoatOverviewScreenState createState() => _BoatOverviewScreenState();
@@ -27,7 +29,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                 child: Stack(
                   children: <Widget>[
                     Image.asset(
-                      'assets/images/boat1.jpeg',
+                      boat.image,
                       fit: BoxFit.cover,
                     ),
                     Positioned(
@@ -57,7 +59,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
               child: Container(
                 padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 40.0),
                 child: Text(
-                  "Family Boat",
+                  boat.type,
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -74,7 +76,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           child: CircleAvatar(
                             radius: 30.0,
                             backgroundImage:
-                                AssetImage('assets/images/women1.jpg'),
+                                AssetImage(boat.owner.profileImage),
                           ),
                         ),
                         Expanded(
@@ -85,7 +87,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "\€ 200 per day",
+                                  boat.location,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Padding(
@@ -100,7 +102,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 3.0),
                                         child: Text(
-                                          "Sarah",
+                                          boat.owner.firstName + " " + boat.owner.lastName,
                                           style: TextStyle(
                                               color: Color(0xFF1976D2)),
                                         ),
@@ -121,7 +123,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                 color: Color(0xFF1976D2),
                               ),
                               Text(
-                                "Amsterdam",
+                                boat.location,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )
                             ],
@@ -145,9 +147,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
-                              "Enjoy the Amsterdam canals with my family party boat, a 6 meters long and 2 meters wide robust iron boat."
-                              "There are soft pillows both at the front and back where you can lay down during the trip."
-                              "There is also a couch upfront where you can chill and lay back with even two people.",
+                              boat.description,
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),

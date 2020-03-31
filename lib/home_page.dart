@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/header.dart';
 import 'package:hello_rectangle/header_filter.dart';
 
+import 'boat_model.dart';
 import 'boat_model_list.dart';
 import 'boat_overview_page.dart';
 import 'boat_listing.dart';
@@ -154,9 +155,9 @@ class _HomePageState extends State<HomePage> {
               height: 510.0,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: boatList.boat.length,
+                  itemCount: boatList.boats.length,
                   itemBuilder: (context, index) {
-                    return _buildBoatList(context, index, boatList.boat);
+                    return _buildBoatList(context, index, boatList.boats);
                   }),
             ),
           ],
