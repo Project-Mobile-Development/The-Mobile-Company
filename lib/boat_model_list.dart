@@ -14,6 +14,13 @@ var user = new User(
     phoneNumber: "0634567654",
     profileImage: "assets/images/women1.jpg");
 
+var user2 = new User(
+    firstName: "TEST",
+    lastName: "TEST",
+    email: "sarahEikenhout@hotmail.com",
+    phoneNumber: "0634567654",
+    profileImage: "assets/images/women1.jpg");
+
 var boat = new Boat(
     owner: user,
     type: "Family Boat",
@@ -24,11 +31,21 @@ var boat = new Boat(
         "Enjoy the Amsterdam canals with my family party boat, a 6 meters long and 2 meters wide robust iron boat."
         "There are soft pillows both at the front and back where you can lay down during the trip."
         "There is also a couch upfront where you can chill and lay back with even two people.");
+var boat2 = new Boat(
+    owner: user2,
+    type: "TEST",
+    image: "assets/images/boat1.jpeg",
+    location: "Amsterdam",
+    price: "\€ 100 per day",
+    description:
+    "Enjoy the Amsterdam canals with my family party boat, a 6 meters long and 2 meters wide robust iron boat."
+        "There are soft pillows both at the front and back where you can lay down during the trip."
+        "There is also a couch upfront where you can chill and lay back with even two people.");
 
 final BoatModelList boatList = new BoatModelList(
   boats: [
     boat,
-    boat,
+    boat2,
     boat,
     boat,
     boat,

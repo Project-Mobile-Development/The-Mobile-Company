@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'boat_model_list.dart';
 
 class BoatOverviewScreen extends StatefulWidget {
+  final int boatIndex;
+
+  BoatOverviewScreen({this.boatIndex});
+
   @override
   _BoatOverviewScreenState createState() => _BoatOverviewScreenState();
 }
@@ -29,7 +33,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                 child: Stack(
                   children: <Widget>[
                     Image.asset(
-                      boat.image,
+                      boatList.boats[widget.boatIndex].image,
                       fit: BoxFit.cover,
                     ),
                     Positioned(
@@ -59,7 +63,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
               child: Container(
                 padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 40.0),
                 child: Text(
-                  boat.type,
+                  boatList.boats[widget.boatIndex].type,
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -75,8 +79,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           padding: const EdgeInsets.all(10.0),
                           child: CircleAvatar(
                             radius: 30.0,
-                            backgroundImage:
-                                AssetImage(boat.owner.profileImage),
+                            backgroundImage: AssetImage(boatList
+                                .boats[widget.boatIndex].owner.profileImage),
                           ),
                         ),
                         Expanded(
@@ -87,7 +91,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  boat.location,
+                                  boatList.boats[widget.boatIndex].location,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Padding(
@@ -102,7 +106,11 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 3.0),
                                         child: Text(
-                                          boat.owner.firstName + " " + boat.owner.lastName,
+                                          boatList.boats[widget.boatIndex].owner
+                                                  .firstName +
+                                              " " +
+                                              boatList.boats[widget.boatIndex]
+                                                  .owner.lastName,
                                           style: TextStyle(
                                               color: Color(0xFF1976D2)),
                                         ),
@@ -123,7 +131,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                 color: Color(0xFF1976D2),
                               ),
                               Text(
-                                boat.location,
+                                boatList.boats[widget.boatIndex].location,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )
                             ],
@@ -147,7 +155,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
-                              boat.description,
+                              boatList.boats[widget.boatIndex].description,
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),
