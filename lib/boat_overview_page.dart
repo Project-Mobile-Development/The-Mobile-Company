@@ -35,6 +35,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                     Image.asset(
                       boatList.boats[widget.boatIndex].image,
                       fit: BoxFit.cover,
+                      width: 1000.0,
+                      height: 500.0,
                     ),
                     Positioned(
                       child: Icon(
