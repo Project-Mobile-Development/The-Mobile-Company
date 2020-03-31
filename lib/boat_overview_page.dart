@@ -141,27 +141,29 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         ),
                       ],
                     ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.only(left: 10.0, top: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "About this boat",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              boatList.boats[widget.boatIndex].description,
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "About this boat",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        boatList.boats[widget.boatIndex].description,
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ),
                   ],
