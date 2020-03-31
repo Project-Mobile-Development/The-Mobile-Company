@@ -3,6 +3,7 @@ import 'package:hello_rectangle/header.dart';
 import 'package:hello_rectangle/header_filter.dart';
 
 import 'boat_model_list.dart';
+import 'boat_overview_page.dart';
 import 'boat_listing.dart';
 import 'fab_bottom_app_bar.dart';
 
@@ -40,7 +41,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBoatList(context, index, List<Boat> listImages) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BoatOverviewScreen()),
+        );
+      },
+      child: Container(
         width: 200.0,
         padding: const EdgeInsets.only(left: 20.0, top: 50.0),
         child: Column(
@@ -68,7 +76,9 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   @override
