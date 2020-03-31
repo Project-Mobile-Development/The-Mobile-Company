@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'form_listing.dart';
 import 'header.dart';
 
 class BoatListing extends StatefulWidget {
@@ -60,6 +61,10 @@ class _BoatListingState extends State<BoatListing> {
                       alignment: Alignment.topLeft,
                     ),
                   )
+                ],
+              ), Stack(
+                children: <Widget>[
+                  FormListing(),
                 ],
               ),
             ],
