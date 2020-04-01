@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen>
           image: DecorationImage(
             colorFilter: new ColorFilter.mode(
                 Colors.black.withOpacity(0.1), BlendMode.dstATop),
-            image: AssetImage('assets/images/mountains.jpg'),
+            image: AssetImage('assets/images/login-signup-background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen>
           image: DecorationImage(
             colorFilter: new ColorFilter.mode(
                 Colors.black.withOpacity(0.05), BlendMode.dstATop),
-            image: AssetImage('assets/images/mountains.jpg'),
+            image: AssetImage('assets/images/login-signup-background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -487,7 +487,7 @@ class _LoginScreenState extends State<LoginScreen>
           image: DecorationImage(
             colorFilter: new ColorFilter.mode(
                 Colors.black.withOpacity(0.05), BlendMode.dstATop),
-            image: AssetImage('assets/images/mountains.jpg'),
+            image: AssetImage('assets/images/login-signup-background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
