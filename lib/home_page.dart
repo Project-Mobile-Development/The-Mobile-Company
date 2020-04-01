@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/header.dart';
 import 'package:hello_rectangle/header_filter.dart';
 
+import 'boat_model.dart';
 import 'boat_model_list.dart';
+import 'boat_overview_page.dart';
 import 'boat_listing.dart';
 import 'fab_bottom_app_bar.dart';
 
@@ -39,8 +41,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBoatList(context, index, List<Boat> listImages) {
-    return Container(
+  Widget _buildBoatList(context, index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BoatOverviewScreen(boatIndex: index)),
+        );
+      },
+      child: Container(
         width: 200.0,
         padding: const EdgeInsets.only(left: 20.0, top: 50.0),
         child: Column(
@@ -50,25 +60,27 @@ class _HomePageState extends State<HomePage> {
             ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.asset(
-                  listImages[index].image,
+                  boatList.boats[index].image,
                   width: 350.0,
                   height: 150.0,
                   fit: BoxFit.cover,
                 )),
             Text(
-              listImages[index].location,
+              boatList.boats[index].location,
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
             ),
             Text(
-              listImages[index].price,
+              boatList.boats[index].price,
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
             ),
             Text(
-              listImages[index].type,
+              boatList.boats[index].type,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   @override
@@ -144,9 +156,9 @@ class _HomePageState extends State<HomePage> {
               height: 510.0,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: boatList.boat.length,
+                  itemCount: boatList.boats.length,
                   itemBuilder: (context, index) {
-                    return _buildBoatList(context, index, boatList.boat);
+                    return _buildBoatList(context, index);
                   }),
             ),
           ],
