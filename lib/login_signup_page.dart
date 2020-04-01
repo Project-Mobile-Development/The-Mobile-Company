@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen>
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          color: Colors.redAccent,
+          color: Colors.blueAccent,
           image: DecorationImage(
             colorFilter: new ColorFilter.mode(
                 Colors.black.withOpacity(0.1), BlendMode.dstATop),
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen>
               padding: EdgeInsets.only(top: 250.0),
               child: Center(
                 child: Icon(
-                  Icons.headset_mic,
+                  Icons.directions_boat,
                   color: Colors.white,
                   size: 40.0,
                 ),
@@ -45,14 +45,7 @@ class _LoginScreenState extends State<LoginScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Awesome",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  Text(
-                    "App",
+                    "Boatel",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
@@ -72,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen>
                     child: new OutlineButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30.0)),
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       highlightedBorderColor: Colors.white,
                       onPressed: () => gotoSignup(),
                       child: new Container(
@@ -125,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 "LOGIN",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.redAccent,
+                                    color: Colors.blueAccent,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -162,8 +155,8 @@ class _LoginScreenState extends State<LoginScreen>
               padding: EdgeInsets.all(120.0),
               child: Center(
                 child: Icon(
-                  Icons.headset_mic,
-                  color: Colors.redAccent,
+                  Icons.directions_boat,
+                  color: Colors.blueAccent,
                   size: 50.0,
                 ),
               ),
@@ -177,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "EMAIL",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                     ),
@@ -192,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -228,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "PASSWORD",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                     ),
@@ -243,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -280,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "Forgot Password?",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                       textAlign: TextAlign.end,
@@ -301,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen>
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
@@ -504,8 +497,8 @@ class _LoginScreenState extends State<LoginScreen>
               padding: EdgeInsets.all(100.0),
               child: Center(
                 child: Icon(
-                  Icons.headset_mic,
-                  color: Colors.redAccent,
+                  Icons.directions_boat,
+                  color: Colors.blueAccent,
                   size: 50.0,
                 ),
               ),
@@ -519,7 +512,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "EMAIL",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                     ),
@@ -534,7 +527,7 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -570,7 +563,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "PASSWORD",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                     ),
@@ -585,7 +578,7 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -621,7 +614,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "CONFIRM PASSWORD",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                     ),
@@ -636,7 +629,7 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -673,7 +666,7 @@ class _LoginScreenState extends State<LoginScreen>
                       "Already have an account?",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.redAccent,
+                        color: Colors.blueAccent,
                         fontSize: 15.0,
                       ),
                       textAlign: TextAlign.end,
@@ -694,7 +687,7 @@ class _LoginScreenState extends State<LoginScreen>
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
-                      color: Colors.redAccent,
+                      color: Colors.blueAccent,
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
