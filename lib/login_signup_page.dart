@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
               child: new Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(120.0),
+                    padding: EdgeInsets.only(left: 120.0, top: 120.0, right: 120.0, bottom: (MediaQuery.of(context).size.height / 10) - 15),
                     child: Center(
                       child: Icon(
                         Icons.directions_boat,
@@ -223,6 +223,9 @@ class _LoginScreenState extends State<LoginScreen>
                               hintText: 'samarthagarwal@live.com',
                               hintStyle: TextStyle(color: Colors.grey),
                             ),
+                            onChanged: (text) {
+                              existingUser.email = text;
+                            },
                           ),
                         ),
                       ],
@@ -275,6 +278,9 @@ class _LoginScreenState extends State<LoginScreen>
                               hintText: '*********',
                               hintStyle: TextStyle(color: Colors.grey),
                             ),
+                            onChanged: (text) {
+                              existingUser.password = text;
+                            },
                           ),
                         ),
                       ],
@@ -317,6 +323,8 @@ class _LoginScreenState extends State<LoginScreen>
                             ),
                             color: Colors.blueAccent,
                             onPressed: () {
+                              // Make an api call to the back end to see if the if the user logs in with an existing account from the database
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -416,12 +424,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: <Widget>[
-                                                  Icon(
-                                                    const IconData(0xea90,
-                                                        fontFamily: 'icomoon'),
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
+
                                                   Text(
                                                     "FACEBOOK",
                                                     textAlign: TextAlign.center,
@@ -474,12 +477,6 @@ class _LoginScreenState extends State<LoginScreen>
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: <Widget>[
-                                                  Icon(
-                                                    const IconData(0xea88,
-                                                        fontFamily: 'icomoon'),
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
                                                   Text(
                                                     "GOOGLE",
                                                     textAlign: TextAlign.center,
@@ -523,7 +520,7 @@ class _LoginScreenState extends State<LoginScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height + 300.0,
+              height: MediaQuery.of(context).size.height * 1.5,
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
@@ -894,7 +891,8 @@ class _LoginScreenState extends State<LoginScreen>
                             ),
                             color: Colors.blueAccent,
                             onPressed: () {
-                              // Send user model here to database
+                              // Make an api call to the back end to store the new account in the database
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

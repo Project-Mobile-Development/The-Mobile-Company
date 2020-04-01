@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Container(
         width: 200.0,
-        padding: const EdgeInsets.only(left: 20.0, top: 50.0),
+        padding: const EdgeInsets.only(left: 20.0, top: 30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               padding: EdgeInsets.only(left: 10.0),
-              height: 510.0,
+              height: MediaQuery.of(context).size.height - 300.0,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: boatList.boats.length,
