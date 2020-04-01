@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/boat_filter_list.dart';
 
-class _HeaderFilter extends StatefulWidget {
+class HeaderFilter extends StatefulWidget {
   final int iconIndex;
 
-  _HeaderFilter({this.iconIndex});
+  HeaderFilter({this.iconIndex});
 
   @override
-  HeaderFilter createState() => HeaderFilter();
+  _HeaderFilter createState() => _HeaderFilter();
 }
 
-class HeaderFilter extends State<_HeaderFilter> {
+class _HeaderFilter extends State<HeaderFilter> {
   @override
   Widget build(BuildContext context) {
     return ClipPath(

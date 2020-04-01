@@ -86,13 +86,13 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBoatIconsList(context, index) {
     return GestureDetector(
-//      onTap: () {
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//              builder: (context) => _HeaderFilter(iconIndex: index)),
-//        );
-//      },
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HeaderFilter(iconIndex: index)),
+        );
+      },
      child: RaisedButton(
         color: Color(0xFFECEFF1),
         padding: EdgeInsets.all(8.0),
