@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/boat_filter_list.dart';
 
-class HeaderFilter extends StatelessWidget {
+class _HeaderFilter extends StatefulWidget {
+  final int iconIndex;
+
+  _HeaderFilter({this.iconIndex});
+
+  @override
+  HeaderFilter createState() => HeaderFilter();
+}
+
+class HeaderFilter extends State<_HeaderFilter> {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -19,7 +29,7 @@ class HeaderFilter extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Icon(
-                      Icons.directions_boat,
+                      boatIconsList.icons[widget.iconIndex].icon,
                       color: Colors.black,
                       size: 35.0,
                     ),
@@ -27,243 +37,11 @@ class HeaderFilter extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Text(
-                      "Boat",
+                      boatIconsList.icons[widget.iconIndex].name,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              color: Color(0xFFECEFF1),
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.directions_boat,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "Boat",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10
                       ),
                     ),
                   ),
