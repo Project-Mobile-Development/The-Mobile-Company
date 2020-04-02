@@ -4,6 +4,7 @@ import 'package:hello_rectangle/header.dart';
 import 'boat_filter_list.dart';
 import 'boat_model_list.dart';
 import 'boat_overview_page.dart';
+import 'ProfilePage.dart';
 import 'header_filter.dart';
 import 'boat_listing.dart';
 import 'fab_bottom_app_bar.dart';
@@ -14,18 +15,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _lastSelected = 'TAB: 0';
-
   void _selectedTab(int index) {
-    setState(() {
-      _lastSelected = 'TAB: $index';
-    });
-  }
-
-  void _selectedFab(int index) {
-    setState(() {
-      _lastSelected = 'FAB: $index';
-    });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    }
   }
 
   Widget _buildFab(BuildContext context) {
