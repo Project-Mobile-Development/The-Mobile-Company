@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/Models/user_model.dart';
 
 import 'home_page.dart';
-import 'user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/boat_filter_model.dart';
+import 'package:hello_rectangle/Models/boat_filter_model.dart';
 
 
 class BoatIconsList {
