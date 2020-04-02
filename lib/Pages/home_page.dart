@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/header.dart';
+import 'package:hello_rectangle/Widgets/header.dart';
 
-import 'boat_filter_list.dart';
-import 'boat_model_list.dart';
+import '../Widgets/boat_filter_list.dart';
+import '../Models/boat_model_list.dart';
 import 'boat_overview_page.dart';
 import 'ProfilePage.dart';
-import 'header_filter.dart';
+import '../Widgets/header_filter.dart';
 import 'boat_listing.dart';
-import 'fab_bottom_app_bar.dart';
+import '../Widgets/fab_bottom_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

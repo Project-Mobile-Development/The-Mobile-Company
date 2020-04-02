@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/boat_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'boat_filter_list.dart';
-import 'header.dart';
-import 'header_filter.dart';
+import '../Models/boat_model.dart';
+import '../Widgets/boat_filter_list.dart';
+import '../Widgets/header.dart';
+import '../Widgets/header_filter.dart';
 import 'home_page.dart';
 
 class BoatListing extends StatefulWidget {

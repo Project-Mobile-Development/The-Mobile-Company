@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
-import 'user_model.dart';
+import '../Models/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

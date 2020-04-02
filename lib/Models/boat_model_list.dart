@@ -1,5 +1,5 @@
-import 'user_model.dart';
 import 'boat_model.dart';
+import 'user_model.dart';
 
 class BoatModelList {
   final List<Boat> boats;

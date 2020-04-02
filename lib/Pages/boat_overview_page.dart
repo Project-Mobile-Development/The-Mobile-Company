@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'boat_model_list.dart';
+import '../Models/boat_model_list.dart';
 
 class BoatOverviewScreen extends StatefulWidget {
   final int boatIndex;
