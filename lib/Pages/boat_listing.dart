@@ -86,21 +86,19 @@ class _BoatListingState extends State<BoatListing> {
                 ),
               ));
         } else if (snapshot.error != null) {
-        return const Padding(
-        padding: const EdgeInsets.only(top: 60.0),
-        child: Text(
-        'Error picking an image',
-        textAlign: TextAlign.center,
-        )
-        );
+          return const Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Text(
+                'Error picking an image',
+                textAlign: TextAlign.center,
+              ));
         } else {
-        return const Padding(
-        padding: const EdgeInsets.only(top: 60.0),
-        child: Text(
-        'Add an image',
-        textAlign: TextAlign.center,
-        )
-        );
+          return const Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Text(
+                'Add an image',
+                textAlign: TextAlign.center,
+              ));
         }
       },
     );
@@ -169,25 +167,25 @@ class _BoatListingState extends State<BoatListing> {
                       children: <Widget>[
                         Center(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 15.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  pickImageFromGallery(ImageSource.gallery);
-                                },
-                                child: Container(
-                                  width: 140.0,
-                                  height: 140.0,
-                                  decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: new Border.all(
-                                        color: Colors.blue,
-                                        width: 2.0,
-                                        style: BorderStyle.solid),
-                                  ),
-                                  child: showImage(),
-                                ),
+                          padding: EdgeInsets.only(top: 15.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              pickImageFromGallery(ImageSource.gallery);
+                            },
+                            child: Container(
+                              width: 140.0,
+                              height: 140.0,
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: new Border.all(
+                                    color: Colors.blue,
+                                    width: 2.0,
+                                    style: BorderStyle.solid),
                               ),
-                            )),
+                              child: showImage(),
+                            ),
+                          ),
+                        )),
                         Padding(
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
@@ -202,21 +200,24 @@ class _BoatListingState extends State<BoatListing> {
                             },
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(left: 0.0),
-                          height: 75.0,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: boatIconsList.icons.length,
-                              itemBuilder: (context, index) {
-                                return _buildBoatIconsList(context, index);
-                              }),
+                        Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 0.0),
+                            height: 75.0,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: boatIconsList.icons.length,
+                                itemBuilder: (context, index) {
+                                  return _buildBoatIconsList(context, index);
+                                }),
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
                             decoration:
-                            InputDecoration(labelText: 'Enter a price'),
+                                InputDecoration(labelText: 'Enter a price'),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
@@ -229,7 +230,7 @@ class _BoatListingState extends State<BoatListing> {
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
                             decoration:
-                            InputDecoration(labelText: 'Enter a location'),
+                                InputDecoration(labelText: 'Enter a location'),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
