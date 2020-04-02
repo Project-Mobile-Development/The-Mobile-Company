@@ -71,21 +71,36 @@ class _BoatListingState extends State<BoatListing> {
       builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          return Image.file(
-            snapshot.data,
-            width: 300,
-            height: 300,
-          );
+          return new Container(
+              width: 140.0,
+              height: 140.0,
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                image: new DecorationImage(
+                  image: Image.file(
+                    snapshot.data,
+                    width: 300,
+                    height: 300,
+                  ).image,
+                  fit: BoxFit.cover,
+                ),
+              ));
         } else if (snapshot.error != null) {
-          return const Text(
-            'Error Picking Image',
-            textAlign: TextAlign.center,
-          );
+        return const Padding(
+        padding: const EdgeInsets.only(top: 60.0),
+        child: Text(
+        'Error picking an image',
+        textAlign: TextAlign.center,
+        )
+        );
         } else {
-          return const Text(
-            'No Image Selected',
-            textAlign: TextAlign.center,
-          );
+        return const Padding(
+        padding: const EdgeInsets.only(top: 60.0),
+        child: Text(
+        'Add an image',
+        textAlign: TextAlign.center,
+        )
+        );
         }
       },
     );
@@ -153,24 +168,26 @@ class _BoatListingState extends State<BoatListing> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              pickImageFromGallery(ImageSource.gallery);
-                            },
-                            child: Container(
-                              width: 140.0,
-                              height: 140.0,
-                              decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: new Border.all(
-                                    color: Colors.blue,
-                                    width: 2.0,
-                                    style: BorderStyle.solid),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 15.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pickImageFromGallery(ImageSource.gallery);
+                                },
+                                child: Container(
+                                  width: 140.0,
+                                  height: 140.0,
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: new Border.all(
+                                        color: Colors.blue,
+                                        width: 2.0,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  child: showImage(),
+                                ),
                               ),
-                              child: showImage(),
-                            ),
-                          ),
-                        ),
+                            )),
                         Padding(
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
@@ -199,7 +216,7 @@ class _BoatListingState extends State<BoatListing> {
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
                             decoration:
-                                InputDecoration(labelText: 'Enter a price'),
+                            InputDecoration(labelText: 'Enter a price'),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
@@ -212,7 +229,7 @@ class _BoatListingState extends State<BoatListing> {
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
                             decoration:
-                                InputDecoration(labelText: 'Enter a location'),
+                            InputDecoration(labelText: 'Enter a location'),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please enter some text';
@@ -261,8 +278,7 @@ class _BoatListingState extends State<BoatListing> {
                 //if its pushed to firebase go to the homepage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               }
             },
