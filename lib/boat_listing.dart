@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/boat_model.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'boat_filter_list.dart';
 import 'header.dart';
+import 'header_filter.dart';
 
 class BoatListing extends StatefulWidget {
   @override
@@ -20,6 +22,46 @@ class _BoatListingState extends State<BoatListing> {
     setState(() {
       imageFile = ImagePicker.pickImage(source: source);
     });
+  }
+
+  Widget _buildBoatIconsList(context, index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HeaderFilter(iconIndex: index)),
+        );
+      },
+      child: RaisedButton(
+        color: Color(0xFFECEFF1),
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Icon(
+                boatIconsList.icons[index].icon,
+                color: Colors.black,
+                size: 35.0,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Text(
+                boatIconsList.icons[index].name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10),
+              ),
+            ),
+          ],
+        ),
+        onPressed: () {},
+      ),
+    );
   }
 
   Widget showImage() {
@@ -141,6 +183,16 @@ class _BoatListingState extends State<BoatListing> {
                               return null;
                             },
                           ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 0.0),
+                          height: 75.0,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: boatIconsList.icons.length,
+                              itemBuilder: (context, index) {
+                                return _buildBoatIconsList(context, index);
+                              }),
                         ),
                         Padding(
                           padding: EdgeInsets.all(15.0),
