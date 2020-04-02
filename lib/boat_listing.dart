@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'boat_filter_list.dart';
 import 'header.dart';
 import 'header_filter.dart';
+import 'home_page.dart';
 
 class BoatListing extends StatefulWidget {
   @override
@@ -255,9 +256,14 @@ class _BoatListingState extends State<BoatListing> {
           child: new MaterialButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                // If the form is valid, display a Snackbar.
-//                Scaffold.of(context)
-//                    .showSnackBar(SnackBar(content: Text('Processing Data')));
+                // if the form is valid push the data into firebase
+
+                //if its pushed to firebase go to the homepage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeScreen()),
+                );
               }
             },
             child: new Padding(
