@@ -1,14 +1,16 @@
 class User {
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phoneNumber;
-  final String profileImage;
+  String firstName;
+  String lastName;
+  String email;
+  String password;
+  String phoneNumber;
+  String profileImage;
 
   User(
       {this.firstName,
       this.lastName,
       this.email,
+      this.password,
       this.phoneNumber,
       this.profileImage});
 }

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/header.dart';
 
 import 'boat_filter_list.dart';
-import 'boat_model.dart';
 import 'boat_model_list.dart';
 import 'boat_overview_page.dart';
 import 'header_filter.dart';
 import 'boat_listing.dart';
 import 'fab_bottom_app_bar.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   String _lastSelected = 'TAB: 0';
 
   void _selectedTab(int index) {
@@ -53,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Container(
         width: 200.0,
-        padding: const EdgeInsets.only(left: 20.0, top: 50.0),
+        padding: const EdgeInsets.only(left: 20.0, top: 30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => HeaderFilter(iconIndex: index)),
         );
       },
-     child: RaisedButton(
+      child: RaisedButton(
         color: Color(0xFFECEFF1),
         padding: EdgeInsets.all(8.0),
         child: Column(
@@ -114,8 +113,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 10
-                ),
+                    fontSize: 10),
               ),
             ),
           ],
@@ -124,8 +122,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +189,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               padding: EdgeInsets.only(left: 10.0),
-              height: 510.0,
+              height: MediaQuery.of(context).size.height - 300.0,
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: boatList.boats.length,
@@ -240,48 +236,3 @@ Route _animateBottomToTop() {
     },
   );
 }
-
-//class MyApp extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    final title = 'Horizontal List';
-//
-//    return MaterialApp(
-//      title: title,
-//      home: Scaffold(
-//        appBar: AppBar(
-//          title: Text(title),
-//        ),
-//        body: Container(
-//          margin: EdgeInsets.symmetric(vertical: 20.0),
-//          height: 200.0,
-//          child: ListView(
-//            scrollDirection: Axis.horizontal,
-//            children: <Widget>[
-//              Container(
-//                width: 160.0,
-//                color: Colors.red,
-//              ),
-//              Container(
-//                width: 160.0,
-//                color: Colors.blue,
-//              ),
-//              Container(
-//                width: 160.0,
-//                color: Colors.green,
-//              ),
-//              Container(
-//                width: 160.0,
-//                color: Colors.yellow,
-//              ),
-//              Container(
-//                width: 160.0,
-//                color: Colors.orange,
-//              ),
-//            ],
-//          ),
-//        ),
-//      ),
-//    );
-//  }
-//}
