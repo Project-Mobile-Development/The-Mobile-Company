@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/boat_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'header.dart';
 
@@ -11,6 +14,39 @@ class BoatListing extends StatefulWidget {
 class _BoatListingState extends State<BoatListing> {
   var newBoat = new Boat();
   final _formKey = GlobalKey<FormState>();
+  Future<File> imageFile;
+
+  pickImageFromGallery(ImageSource source) {
+    setState(() {
+      imageFile = ImagePicker.pickImage(source: source);
+    });
+  }
+
+  Widget showImage() {
+    return FutureBuilder<File>(
+      future: imageFile,
+      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null) {
+          return Image.file(
+            snapshot.data,
+            width: 300,
+            height: 300,
+          );
+        } else if (snapshot.error != null) {
+          return const Text(
+            'Error Picking Image',
+            textAlign: TextAlign.center,
+          );
+        } else {
+          return const Text(
+            'No Image Selected',
+            textAlign: TextAlign.center,
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +109,25 @@ class _BoatListingState extends State<BoatListing> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              pickImageFromGallery(ImageSource.gallery);
+                            },
+                            child: Container(
+                              width: 140.0,
+                              height: 140.0,
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: new Border.all(
+                                    color: Colors.blue,
+                                    width: 2.0,
+                                    style: BorderStyle.solid),
+                              ),
+                              child: showImage(),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
