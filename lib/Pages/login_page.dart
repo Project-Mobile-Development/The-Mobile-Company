@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen>
                   colorFilter: new ColorFilter.mode(
                       Colors.black.withOpacity(0.1), BlendMode.dstATop),
                   image:
-                  AssetImage('assets/images/login-signup-background.jpg'),
+                      AssetImage('assets/images/login-signup-background.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   PageController _controller =
-  new PageController(initialPage: 1, viewportFraction: 1.0);
+      new PageController(initialPage: 1, viewportFraction: 1.0);
 
   @override
   Widget build(BuildContext context) {

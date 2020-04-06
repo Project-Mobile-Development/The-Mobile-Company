@@ -10,9 +10,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final _signInFormKey = GlobalKey<FormState>();
+  User existingUser = User();
   bool _autoValidate = false;
-  var existingUser = User();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               enabledBorder: new UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.blueAccent,
-                                    width: 0.5,
+                                    width: 0.8,
                                     style: BorderStyle.solid),
                               ),
                             ),
@@ -99,7 +98,12 @@ class _SignInScreenState extends State<SignInScreen> {
                               _autoValidate = false;
                               if (value.isEmpty) {
                                 _autoValidate = true;
-                                return 'Please fill in your email';
+                                return 'Email is not filled in';
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                _autoValidate = true;
+                                return 'Email is not valid';
                               }
                               existingUser.email = value;
                               return null;
@@ -131,33 +135,33 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
-                            obscureText: true,
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '*********',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              existingUser.password = text;
+                            obscureText: true,
+                            validator: (value) {
+                              _autoValidate = false;
+                              if (value.isEmpty) {
+                                _autoValidate = true;
+                                return 'Password is not filled in';
+                              }
+                              existingUser.password = value;
+                              return null;
                             },
                           ),
                         ),
