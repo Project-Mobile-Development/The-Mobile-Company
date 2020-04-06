@@ -197,7 +197,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (input.isEmpty) {
                                 _autoValidate = true;
                                 return 'Phone number is not filled in';
-                              } else if (!RegExp(r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
+                              } else if (!RegExp(
+                                      r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
                                   .hasMatch(input)) {
                                 _autoValidate = true;
                                 return 'Phone number is not valid';
