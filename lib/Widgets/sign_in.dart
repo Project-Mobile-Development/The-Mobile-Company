@@ -18,11 +18,11 @@ class _SignInScreenState extends State<SignInScreen> {
     return Form(
       key: formKey,
       autovalidate: _autoValidate,
-      child: SignInPage(),
+      child: signInPage(),
     );
   }
 
-  Widget SignInPage() {
+  Widget signInPage() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -94,18 +94,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                     style: BorderStyle.solid),
                               ),
                             ),
-                            validator: (value) {
+                            validator: (input) {
                               _autoValidate = false;
-                              if (value.isEmpty) {
+                              if (input.isEmpty) {
                                 _autoValidate = true;
                                 return 'Email is not filled in';
                               } else if (!RegExp(
                                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)) {
+                                  .hasMatch(input)) {
                                 _autoValidate = true;
                                 return 'Email is not valid';
                               }
-                              existingUser.email = value;
+                              existingUser.email = input;
                               return null;
                             },
                           ),
@@ -154,13 +154,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                             ),
                             obscureText: true,
-                            validator: (value) {
+                            validator: (input) {
                               _autoValidate = false;
-                              if (value.isEmpty) {
+                              if (input.isEmpty) {
                                 _autoValidate = true;
                                 return 'Password is not filled in';
                               }
-                              existingUser.password = value;
+                              existingUser.password = input;
                               return null;
                             },
                           ),

@@ -10,19 +10,19 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  User newUser = User();
   bool _autoValidate = false;
-  var newUser = User();
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
       autovalidate: _autoValidate,
-      child: SignupPage(),
+      child: signUpPage(),
     );
   }
 
-  Widget SignupPage() {
+  Widget signUpPage() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height * 1.5,
+              height: MediaQuery.of(context).size.height * 1.6,
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
@@ -72,32 +72,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Sarah',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              newUser.firstName = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'First name is not filled in';
+                              }
+                              newUser.firstName = input;
+                              return null;
                             },
                           ),
                         ),
@@ -123,32 +123,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Stone',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              newUser.lastName = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Last name is not filled in';
+                              }
+                              newUser.lastName = input;
+                              return null;
                             },
                           ),
                         ),
@@ -174,32 +174,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '+31643456745',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              newUser.phoneNumber = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Phone number is not filled in';
+                              } else if (!RegExp(r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
+                                  .hasMatch(input)) {
+                                _autoValidate = true;
+                                return 'Phone number is not valid';
+                              }
+                              newUser.phoneNumber = input;
+                              return null;
                             },
                           ),
                         ),
@@ -225,32 +229,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'samarthagarwal@live.com',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              newUser.email = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Email is not filled in';
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(input)) {
+                                _autoValidate = true;
+                                return 'Email is not valid';
+                              }
+                              newUser.email = input;
+                              return null;
                             },
                           ),
                         ),
@@ -279,33 +288,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
-                            obscureText: true,
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '*********',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              newUser.password = text;
+                            obscureText: true,
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Password is not filled in';
+                              }
+                              newUser.password = input;
+                              return null;
                             },
                           ),
                         ),
@@ -334,31 +343,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
-                            obscureText: true,
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '*********',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
+                            obscureText: true,
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty || input != newUser.password) {
+                                _autoValidate = true;
+                                return 'Password does not match';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -402,12 +413,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: Colors.blueAccent,
                             onPressed: () {
                               // Make an api call to the back end to store the new account in the database
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()),
-                              );
+                              if (formKey.currentState.validate()) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              }
                             },
                             child: new Container(
                               padding: const EdgeInsets.symmetric(
