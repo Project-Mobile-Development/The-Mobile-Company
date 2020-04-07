@@ -2,6 +2,7 @@ import 'user_model.dart';
 
 class Boat {
   User owner;
+  String title;
   String type;
   String image;
   String location;
@@ -10,9 +11,10 @@ class Boat {
 
   Boat(
       {this.owner,
-      this.type,
-      this.image,
-      this.location,
-      this.price,
-      this.description});
+        this.title,
+        this.type,
+        this.image,
+        this.location,
+        this.price,
+        this.description});
 }
