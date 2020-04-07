@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
+import '../Utilities/globals.dart';
 import 'home_page.dart';
 import '../Models/user_model.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   @override
-  MapScreenState createState() => MapScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class MapScreenState extends State<ProfilePage>
-    with SingleTickerProviderStateMixin {
-  bool _status = true;
-  final FocusNode myFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  var updatedUser = new User();
+class ProfileScreenState extends State<ProfileScreen> {
+  User updatedUser = User();
+  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      autovalidate: _autoValidate,
+      child: profilePage(),
+    );
+  }
+
+  @override
+  Widget profilePage() {
     return new Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -30,7 +31,7 @@ class MapScreenState extends State<ProfilePage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height * 1.3,
+              height: MediaQuery.of(context).size.height * 1.5,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -102,30 +103,32 @@ class MapScreenState extends State<ProfilePage>
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              updatedUser.firstName = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'First name is not filled in';
+                              }
+                              updatedUser.firstName = input;
+                              return null;
                             },
                           ),
                         ),
@@ -151,30 +154,32 @@ class MapScreenState extends State<ProfilePage>
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              updatedUser.lastName = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Last name is not filled in';
+                              }
+                              updatedUser.lastName = input;
+                              return null;
                             },
                           ),
                         ),
@@ -200,30 +205,37 @@ class MapScreenState extends State<ProfilePage>
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              updatedUser.phoneNumber = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Phone number is not filled in';
+                              } else if (!RegExp(
+                                      r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
+                                  .hasMatch(input)) {
+                                _autoValidate = true;
+                                return 'Phone number is not valid';
+                              }
+                              updatedUser.phoneNumber = input;
+                              return null;
                             },
                           ),
                         ),
@@ -249,30 +261,37 @@ class MapScreenState extends State<ProfilePage>
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              updatedUser.email = text;
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Email is not filled in';
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(input)) {
+                                _autoValidate = true;
+                                return 'Email is not valid';
+                              }
+                              updatedUser.email = input;
+                              return null;
                             },
                           ),
                         ),
@@ -301,36 +320,96 @@ class MapScreenState extends State<ProfilePage>
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(
-                        left: 40.0, right: 40.0, top: 10.0),
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Colors.blueAccent,
-                            width: 0.5,
-                            style: BorderStyle.solid),
-                      ),
-                    ),
                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                     child: new Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         new Expanded(
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Colors.grey),
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
                             ),
-                            onChanged: (text) {
-                              updatedUser.password = text;
+                            obscureText: true,
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty) {
+                                _autoValidate = true;
+                                return 'Password is not filled in';
+                              }
+                              updatedUser.password = input;
+                              return null;
                             },
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  Divider(
+                    height: 24.0,
+                  ),
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Padding(
+                          padding: const EdgeInsets.only(left: 40.0),
+                          child: new Text(
+                            "CONFIRM PASSWORD",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueAccent,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  new Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                    child: new Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        new Expanded(
+                          child: TextFormField(
+                            textAlign: TextAlign.left,
+                            decoration: InputDecoration(
+                              enabledBorder: new UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 0.8,
+                                    style: BorderStyle.solid),
+                              ),
+                            ),
+                            obscureText: true,
+                            validator: (input) {
+                              _autoValidate = false;
+                              if (input.isEmpty ||
+                                  input != updatedUser.password) {
+                                _autoValidate = true;
+                                return 'Password does not match';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    height: 24.0,
                   ),
                   new Container(
                     width: MediaQuery.of(context).size.width,
@@ -347,12 +426,13 @@ class MapScreenState extends State<ProfilePage>
                             color: Colors.blueAccent,
                             onPressed: () {
                               // Make an api call to the back end to store the new account details in the database
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()),
-                              );
+                              if (formKey.currentState.validate()) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              }
                             },
                             child: new Container(
                               padding: const EdgeInsets.symmetric(
@@ -385,84 +465,6 @@ class MapScreenState extends State<ProfilePage>
           ],
         ),
       ),
-    );
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    myFocusNode.dispose();
-    super.dispose();
-  }
-
-  Widget _getActionButtons() {
-    return Padding(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Container(
-                  child: new RaisedButton(
-                child: new Text("Save"),
-                textColor: Colors.white,
-                color: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0)),
-              )),
-            ),
-            flex: 2,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Container(
-                  child: new RaisedButton(
-                child: new Text("Cancel"),
-                textColor: Colors.white,
-                color: Colors.red,
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0)),
-              )),
-            ),
-            flex: 2,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _getEditIcon() {
-    return new GestureDetector(
-      child: new CircleAvatar(
-        backgroundColor: Colors.red,
-        radius: 14.0,
-        child: new Icon(
-          Icons.edit,
-          color: Colors.white,
-          size: 16.0,
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          _status = false;
-        });
-      },
     );
   }
 }
