@@ -4,7 +4,7 @@ import 'package:hello_rectangle/Widgets/header.dart';
 import '../Widgets/boat_filter_list.dart';
 import '../Models/boat_model_list.dart';
 import 'boat_overview_page.dart';
-import 'ProfilePage.dart';
+import 'profile_page.dart';
 import '../Widgets/header_filter.dart';
 import 'boat_listing.dart';
 import '../Widgets/fab_bottom_app_bar.dart';
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
       );
     }
   }
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.of(context).push(_animateBottomToTop());
       },
       tooltip: 'Boatel',
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueAccent,
       child: Icon(icon),
       elevation: 2.0,
     );
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: FABBottomAppBar(
         centerItemText: 'List your boat',
         color: Colors.grey,
-        selectedColor: Color(0xFF1976D2),
+        selectedColor: Colors.grey,
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: _selectedTab,
         items: [
