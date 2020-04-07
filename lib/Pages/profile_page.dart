@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Utilities/globals.dart';
 import 'home_page.dart';
@@ -12,6 +15,15 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   User updatedUser = User();
   bool _autoValidate = false;
+  Future<File> imageFile;
+
+  Future pickImageFromGallery(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      updatedUser.profileImage = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +32,33 @@ class ProfileScreenState extends State<ProfileScreen> {
       autovalidate: _autoValidate,
       child: profilePage(),
     );
+  }
+
+  Widget showImage() {
+    if (updatedUser.profileImage != null) {
+      return new Container(
+          width: 140.0,
+          height: 140.0,
+          decoration: new BoxDecoration(
+            shape: BoxShape.circle,
+            image: new DecorationImage(
+              image: Image.file(
+                updatedUser.profileImage,
+                width: 300,
+                height: 300,
+              ).image,
+              fit: BoxFit.cover,
+            ),
+          ));
+    } else {
+      return const Padding(
+        padding: const EdgeInsets.only(top: 80.0),
+        child: Text(
+          'Add profile image',
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
   }
 
   @override
@@ -61,27 +100,24 @@ class ProfileScreenState extends State<ProfileScreen> {
                       child: Stack(
                         children: <Widget>[
                           new Container(
-                              width: 140.0,
-                              height: 140.0,
-                              decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  image: new ExactAssetImage(
-                                      'assets/images/as.png'),
-                                  fit: BoxFit.cover,
+                            child: GestureDetector(
+                              onTap: () {
+                                pickImageFromGallery(ImageSource.gallery);
+                              },
+                              child: Container(
+                                width: 180.0,
+                                height: 180.0,
+                                decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: new Border.all(
+                                      color: Colors.blueAccent,
+                                      width: 1.5,
+                                      style: BorderStyle.solid),
                                 ),
-                              )),
-                          Positioned(
-                            child: new CircleAvatar(
-                              backgroundColor: Colors.blueAccent,
-                              radius: 25.0,
-                              child: new Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
+                                child: showImage(),
                               ),
                             ),
-                            top: 88.0,
-                          )
+                          ),
                         ],
                       )),
                   new Row(
@@ -122,11 +158,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             validator: (input) {
-                              _autoValidate = false;
-                              if (input.isEmpty) {
-                                _autoValidate = true;
-                                return 'First name is not filled in';
-                              }
                               updatedUser.firstName = input;
                               return null;
                             },
@@ -168,16 +199,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                               enabledBorder: new UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.blueAccent,
-                                    width: 0.8,
+                                    width: 1,
                                     style: BorderStyle.solid),
                               ),
                             ),
                             validator: (input) {
-                              _autoValidate = false;
-                              if (input.isEmpty) {
-                                _autoValidate = true;
-                                return 'Last name is not filled in';
-                              }
                               updatedUser.lastName = input;
                               return null;
                             },
@@ -225,12 +251,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                             validator: (input) {
                               _autoValidate = false;
-                              if (input.isEmpty) {
-                                _autoValidate = true;
-                                return 'Phone number is not filled in';
-                              } else if (!RegExp(
-                                      r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
-                                  .hasMatch(input)) {
+                              if (input.isNotEmpty &&
+                                  !RegExp(r"(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{9}$)")
+                                      .hasMatch(input)) {
                                 _autoValidate = true;
                                 return 'Phone number is not valid';
                               }
@@ -281,12 +304,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                             validator: (input) {
                               _autoValidate = false;
-                              if (input.isEmpty) {
-                                _autoValidate = true;
-                                return 'Email is not filled in';
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(input)) {
+                              if (input.isNotEmpty &&
+                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(input)) {
                                 _autoValidate = true;
                                 return 'Email is not valid';
                               }
@@ -340,11 +360,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                             obscureText: true,
                             validator: (input) {
-                              _autoValidate = false;
-                              if (input.isEmpty) {
-                                _autoValidate = true;
-                                return 'Password is not filled in';
-                              }
                               updatedUser.password = input;
                               return null;
                             },
@@ -396,8 +411,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                             obscureText: true,
                             validator: (input) {
                               _autoValidate = false;
-                              if (input.isEmpty ||
-                                  input != updatedUser.password) {
+                              if (input != updatedUser.password) {
                                 _autoValidate = true;
                                 return 'Password does not match';
                               }

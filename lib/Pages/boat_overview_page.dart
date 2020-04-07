@@ -82,7 +82,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           child: CircleAvatar(
                             radius: 30.0,
                             backgroundImage: AssetImage(boatList
-                                .boats[widget.boatIndex].owner.profileImage),
+                                .boats[widget.boatIndex].owner.tempProfileImage),
                           ),
                         ),
                         Expanded(

@@ -14,35 +14,35 @@ var user1 = new User(
     lastName: "Eikenhout",
     email: "sarahEikenhout@hotmail.com",
     phoneNumber: "0634567654",
-    profileImage: "assets/images/woman1.jpg");
+    tempProfileImage: "assets/images/woman1.jpg");
 
 var user2 = new User(
     firstName: "Lewis",
     lastName: "Stone",
     email: "lewisStone@hotmail.com",
     phoneNumber: "0665594632",
-    profileImage: "assets/images/man2.jpeg");
+    tempProfileImage: "assets/images/man2.jpeg");
 
 var user3 = new User(
     firstName: "Linda",
     lastName: "Ford",
     email: "lindaFord@hotmail.com",
     phoneNumber: "0653458986",
-    profileImage: "assets/images/woman2.jpeg");
+    tempProfileImage: "assets/images/woman2.jpeg");
 
 var user4 = new User(
     firstName: "Bas",
     lastName: "Beek",
     email: "basBeek@hotmail.com",
     phoneNumber: "0665594632",
-    profileImage: "assets/images/man1.jpeg");
+    tempProfileImage: "assets/images/man1.jpeg");
 
 var user5 = new User(
     firstName: "Kara",
     lastName: "Awiwi",
     email: "karaAwiwi@hotmail.com",
     phoneNumber: "0635674871",
-    profileImage: "assets/images/woman3.jpg");
+    tempProfileImage: "assets/images/woman3.jpg");
 
 var boat1 = new Boat(
     owner: user1,
