@@ -54,24 +54,44 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(3.0),
                 child: Image.asset(
                   boatList.boats[index].image,
                   width: 350.0,
-                  height: 150.0,
+                  height: 180.0,
                   fit: BoxFit.cover,
                 )),
+            Divider(
+              color: Colors.white,
+              height: 10.0,
+            ),
+            Text(
+              boatList.boats[index].title,
+              style: TextStyle(fontSize: 20.0),
+            ),
+            Divider(
+              color: Colors.white,
+              height: 5.0,
+            ),
+            Text(
+              boatList.boats[index].type,
+              style: TextStyle(color: Colors.blueAccent, fontSize: 15.0),
+            ),
+            Divider(
+              color: Colors.white,
+              height: 2.5,
+            ),
             Text(
               boatList.boats[index].location,
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
             ),
+            Divider(
+              color: Colors.white,
+              height: 2.5,
+            ),
             Text(
               boatList.boats[index].price,
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
-            ),
-            Text(
-              boatList.boats[index].type,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
           ],
         ),

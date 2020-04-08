@@ -63,9 +63,9 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
             ),
             SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 40.0),
+                padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 15.0),
                 child: Text(
-                  boatList.boats[widget.boatIndex].type,
+                  boatList.boats[widget.boatIndex].title,
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -147,7 +147,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
             ),
             SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.only(left: 10.0, top: 20.0),
+                padding: EdgeInsets.only(left: 10.0, top: 15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,12 +159,20 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
+                    Text(
+                      boatList.boats[widget.boatIndex].description,
+                      style: TextStyle(color: Colors.grey, fontSize: 15.0),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(top:15.0, bottom: 10.0),
                       child: Text(
-                        boatList.boats[widget.boatIndex].description,
-                        style: TextStyle(color: Colors.grey),
+                        "Price",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
+                    ),
+                    Text(
+                      boatList.boats[widget.boatIndex].price,
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 15.0),
                     ),
                   ],
                 ),

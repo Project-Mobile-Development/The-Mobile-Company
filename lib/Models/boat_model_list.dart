@@ -46,6 +46,7 @@ var user5 = new User(
 
 var boat1 = new Boat(
     owner: user1,
+    title: "Affordable party yacht",
     type: "Yacht",
     image: "assets/images/boat1.jpg",
     location: "Amsterdam",
@@ -57,6 +58,7 @@ var boat1 = new Boat(
 
 var boat2 = new Boat(
     owner: user2,
+    title: "Sail like days of ye olde",
     type: "Sail Boat",
     image: "assets/images/boat2.jpg",
     location: "Brabant",
@@ -66,15 +68,16 @@ var boat2 = new Boat(
 
 var boat3 = new Boat(
     owner: user3,
+    title: "Top of the line speed boat",
     type: "Speed Boat",
     image: "assets/images/boat3.jpg",
     location: "Den Haag",
     price: "\€ 50 per hour",
-    description:
-        "Become a dare devil with this super fast speed boat!");
+    description: "Become a dare devil with this speed boat that is powered by a top of the line motor!");
 
 var boat4 = new Boat(
     owner: user4,
+    title: "Romantic rowing boat",
     type: "Rowing Boat",
     image: "assets/images/boat4.jpg",
     location: "Friesland",
@@ -84,6 +87,7 @@ var boat4 = new Boat(
 
 var boat5 = new Boat(
     owner: user5,
+    title: "High security cargo boat",
     type: "Cargo Boat",
     image: "assets/images/boat5.jpg",
     location: "Rotterdam",
