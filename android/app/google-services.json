@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "15162536833",
+    "firebase_url": "https://boatelthemobilecompany.firebaseio.com",
+    "project_id": "boatelthemobilecompany",
+    "storage_bucket": "boatelthemobilecompany.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15162536833:android:9ad8f37c03b59377cd2e80",
+        "android_client_info": {
+          "package_name": "com.boatel.themobilecompany"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15162536833-4rt0q8cl6podqv594q8u9aeciqc980pp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd46yhmvyqdhuhUbLYY2l5wC-RAb5YSGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15162536833-4rt0q8cl6podqv594q8u9aeciqc980pp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
