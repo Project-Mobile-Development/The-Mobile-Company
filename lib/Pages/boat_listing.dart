@@ -158,9 +158,8 @@ class _BoatListingState extends State<BoatListing> {
                   )
                 ],
               ),
-              Stack(
-                children: <Widget>[
-                  Form(
+              Container(
+                  child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,6 +241,7 @@ class _BoatListingState extends State<BoatListing> {
                         Padding(
                           padding: EdgeInsets.all(15.0),
                           child: TextFormField(
+                            maxLines: 5,
                             decoration: InputDecoration(
                                 labelText: 'Enter a Description'),
                             validator: (value) {
@@ -255,7 +255,6 @@ class _BoatListingState extends State<BoatListing> {
                       ],
                     ),
                   ),
-                ],
               ),
             ],
           ),

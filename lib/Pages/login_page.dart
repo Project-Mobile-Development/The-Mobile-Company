@@ -4,6 +4,10 @@ import '../Widgets/sign_in.dart';
 import '../Widgets/sign_up.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Function toggleView;
+
+  LoginScreen({ this.toggleView });
+
   @override
   _LoginScreenState createState() => new _LoginScreenState();
 }

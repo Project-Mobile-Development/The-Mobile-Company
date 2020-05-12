@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'Pages/login_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hello_rectangle/Pages/login_page.dart';
+import 'package:hello_rectangle/screens/wrapper.dart';
+import 'package:hello_rectangle/services/auth.dart';
+import 'package:provider/provider.dart';
+
+import 'Models/user_model.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,14 +12,17 @@ class MyApp extends StatelessWidget {
 // This widget is the root of our application
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Boatel',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // This is the theme of our application
-        primarySwatch: Colors.blue,
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        title: 'Boatel',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          // This is the theme of our application
+          primarySwatch: Colors.blue,
+        ),
+        home: Wrapper(),
       ),
-      home: LoginScreen(),
     );
   }
 }

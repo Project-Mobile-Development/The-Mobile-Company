@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Widgets/header.dart';
+import 'package:hello_rectangle/services/auth.dart';
 
 import '../Widgets/boat_filter_list.dart';
 import '../Models/boat_model_list.dart';
@@ -141,6 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final AuthService _auth = AuthService();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -231,7 +235,19 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: _buildFab(
         context,
       ),
-    );
+      appBar: AppBar(
+        title: Text('Boatel'),
+        backgroundColor: Colors.blue[400],
+        elevation: 0.0,
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: Icon(Icons.person),
+              label: Text('logout'))
+        ],
+      ),    );
   }
 }
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 class User {
+  String uid;
   String firstName;
   String lastName;
   String email;
@@ -11,7 +12,8 @@ class User {
   File profileImage;
 
   User(
-      {this.firstName,
+      {this.uid,
+      this.firstName,
       this.lastName,
       this.email,
       this.password,
