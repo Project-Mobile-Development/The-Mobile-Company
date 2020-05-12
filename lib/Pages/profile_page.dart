@@ -63,7 +63,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget profilePage() {
-    return new Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
