@@ -17,16 +17,6 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-//      body: StreamBuilder(
-//        stream: Firestore.instance.collection('boats').snapshots(),
-//        builder: (context, snapshot) {
-//          if (!snapshot.hasData) return Text('Loading data.. Please Wait..');
-//          return Column(children: <Widget>[
-//            Text(snapshot.data.documents[widget.boatIndex]['title'])
-//          ]);
-//        },
-//      ),
-//    );
       body: StreamBuilder(
         stream: Firestore.instance.collection('boats').snapshots(),
         builder: (context, snapshot) {
@@ -97,7 +87,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                             child: CircleAvatar(
                               radius: 30.0,
                               backgroundImage: AssetImage(boatList
-                                  .boats[widget.boatIndex].owner.tempProfileImage),
+                                  .boats[1].owner.tempProfileImage),
                             ),
                           ),
                           Expanded(
@@ -122,11 +112,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 3.0),
                                           child: Text(
-                                            boatList.boats[widget.boatIndex].owner
-                                                .firstName +
-                                                " " +
-                                                boatList.boats[widget.boatIndex]
-                                                    .owner.lastName,
+                                            snapshot.data.documents[widget.boatIndex]['owner'],
                                             style:
                                             TextStyle(color: Color(0xFF1976D2)),
                                           ),
