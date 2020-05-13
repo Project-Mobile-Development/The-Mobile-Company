@@ -143,8 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -240,19 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildFab(
         context,
-      ),
-      appBar: AppBar(
-        title: Text('Boatel'),
-        backgroundColor: Colors.blue[400],
-        elevation: 0.0,
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              icon: Icon(Icons.person),
-              label: Text('logout'))
-        ],
       ),
     );
   }

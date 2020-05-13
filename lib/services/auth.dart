@@ -5,7 +5,7 @@ import 'package:hello_rectangle/services/database.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // create user object based on FirebseUser
+  // create user object based on FirebaseUser
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid, firstName: user.displayName) : null;
   }
