@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Widgets/header.dart';
 import 'package:hello_rectangle/services/auth.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBoatList(context, index) {
+  Widget _buildBoatList(context, DocumentSnapshot document, index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ClipRRect(
                 borderRadius: BorderRadius.circular(3.0),
                 child: Image.asset(
-                  boatList.boats[index].image,
+                 document['image'],
                   width: 350.0,
                   height: 180.0,
                   fit: BoxFit.cover,
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10.0,
             ),
             Text(
-              boatList.boats[index].title,
+              document['title'],
               style: TextStyle(fontSize: 20.0),
             ),
             Divider(
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 5.0,
             ),
             Text(
-              boatList.boats[index].type,
+              document['type'],
               style: TextStyle(color: Colors.blueAccent, fontSize: 15.0),
             ),
             Divider(
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 2.5,
             ),
             Text(
-              boatList.boats[index].location,
+              document['location'],
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
             ),
             Divider(
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 2.5,
             ),
             Text(
-              boatList.boats[index].price,
+              document['price'],
               style: TextStyle(color: Colors.grey, fontSize: 15.0),
             ),
           ],
@@ -142,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final AuthService _auth = AuthService();
 
     return Scaffold(
@@ -210,12 +210,18 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsets.only(left: 10.0),
               height: MediaQuery.of(context).size.height - 300.0,
-              child: ListView.builder(
+              child: StreamBuilder(
+                stream: Firestore.instance.collection('boats').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('Loading...');
+                  return ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: boatList.boats.length,
+                  itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
-                    return _buildBoatList(context, index);
-                  }),
+                    return _buildBoatList(context, snapshot.data.documents[index], index);
+                  });
+                },
+              )
             ),
           ],
         ),
@@ -247,7 +253,8 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.person),
               label: Text('logout'))
         ],
-      ),    );
+      ),
+    );
   }
 }
 
