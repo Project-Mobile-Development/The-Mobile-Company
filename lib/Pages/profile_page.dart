@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/screens/auth/sign_in.dart';
+import 'package:hello_rectangle/services/auth.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Utilities/globals.dart';
@@ -63,6 +65,8 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget profilePage() {
+    final AuthService _auth = AuthService();
+
     return new Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -459,6 +463,38 @@ class ProfileScreenState extends State<ProfileScreen> {
                                   new Expanded(
                                     child: Text(
                                       "SAVE",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        new Expanded(
+                          child: new FlatButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            color: Colors.blueAccent,
+                            onPressed: () async {
+                              await _auth.signOut();
+                              Navigator.pop(context);
+                            },
+                            child: new Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20.0,
+                                horizontal: 20.0,
+                              ),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Expanded(
+                                    child: Text(
+                                      "Sign out",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,

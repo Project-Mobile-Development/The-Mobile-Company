@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/Models/user_model.dart';
+import 'package:hello_rectangle/services/database.dart';
+import 'package:hello_rectangle/shared/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../Models/boat_model.dart';
 import '../Widgets/boat_filter_list.dart';
@@ -18,6 +23,11 @@ class _BoatListingState extends State<BoatListing> {
   var newBoat = new Boat();
   final _formKey = GlobalKey<FormState>();
   Future<File> imageFile;
+
+  String title = '';
+  String price = '';
+  String location = '';
+  String description = '';
 
   pickImageFromGallery(ImageSource source) {
     setState(() {
@@ -106,6 +116,9 @@ class _BoatListingState extends State<BoatListing> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+
     return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -158,104 +171,89 @@ class _BoatListingState extends State<BoatListing> {
                   )
                 ],
               ),
-              Stack(
-                children: <Widget>[
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                            child: Padding(
-                          padding: EdgeInsets.only(top: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              pickImageFromGallery(ImageSource.gallery);
-                            },
-                            child: Container(
-                              width: 140.0,
-                              height: 140.0,
-                              decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: new Border.all(
-                                    color: Colors.blue,
-                                    width: 2.0,
-                                    style: BorderStyle.solid),
-                              ),
-                              child: showImage(),
-                            ),
-                          ),
-                        )),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Enter a title',
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
+              Container(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Center(
+                          child: Padding(
+                        padding: EdgeInsets.only(top: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            pickImageFromGallery(ImageSource.gallery);
+                          },
                           child: Container(
-                            padding: EdgeInsets.only(left: 0.0),
-                            height: 75.0,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: boatIconsList.icons.length,
-                                itemBuilder: (context, index) {
-                                  return _buildBoatIconsList(context, index);
-                                }),
+                            width: 140.0,
+                            height: 140.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: new Border.all(
+                                  color: Colors.blue,
+                                  width: 2.0,
+                                  style: BorderStyle.solid),
+                            ),
+                            child: showImage(),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'Enter a price'),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          ),
+                      )),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration:
+                            textInputDecoration.copyWith(hintText: 'Title'),
+                        validator: (val) =>
+                            val.isEmpty ? 'Enter a title' : null,
+                        onChanged: (val) {
+                          setState(() => title = val);
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0.0),
+                          height: 75.0,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: boatIconsList.icons.length,
+                              itemBuilder: (context, index) {
+                                return _buildBoatIconsList(context, index);
+                              }),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration:
-                                InputDecoration(labelText: 'Enter a location'),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'Enter a Description'),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration:
+                        textInputDecoration.copyWith(hintText: 'Price'),
+                        validator: (val) =>
+                        val.isEmpty ? 'Enter a price' : null,
+                        onChanged: (val) {
+                          setState(() => price = val);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration:
+                        textInputDecoration.copyWith(hintText: 'Location'),
+                        validator: (val) =>
+                        val.isEmpty ? 'Enter a location' : null,
+                        onChanged: (val) {
+                          setState(() => location = val);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration:
+                        textInputDecoration.copyWith(hintText: 'Description'),
+                        validator: (val) =>
+                        val.isEmpty ? 'Enter a description' : null,
+                        onChanged: (val) {
+                          setState(() => description = val);
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -272,16 +270,25 @@ class _BoatListingState extends State<BoatListing> {
                   stops: [0.0, 0.9],
                   tileMode: TileMode.clamp)),
           child: new MaterialButton(
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
-                // if the form is valid push the data into firebase
+               Firestore.instance.runTransaction((transaction) async {
+                  await transaction.set(Firestore.instance.collection("boats").document(), {
+                    'owner': 'test owner',
+                    'title': title,
+                    'type': 'test type',
+                    'image': 'assets/images/boat3.jpg',
+                    'location': location,
+                    'price': price,
+                    'description': description,
+                  });
+                });
+              }
 
-                //if its pushed to firebase go to the homepage
-                Navigator.push(
+              Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
-              }
             },
             child: new Padding(
               padding: const EdgeInsets.all(30.0),
