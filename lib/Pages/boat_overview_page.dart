@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../Models/boat_model_list.dart';
 
 class BoatOverviewScreen extends StatefulWidget {
+  static String pageId = 'boatOverviewScreen';
   final int boatIndex;
 
   BoatOverviewScreen({this.boatIndex});
@@ -35,33 +36,33 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
 
                 flexibleSpace: FlexibleSpaceBar(
                     background: Container(
-                      child: Stack(
-                        children: <Widget>[
-                          Image.asset(
-                            snapshot.data.documents[widget.boatIndex]['image'],
-                            fit: BoxFit.cover,
-                            width: 1000.0,
-                            height: 500.0,
-                          ),
-                          Positioned(
-                            child: Icon(
-                              Icons.share,
-                              color: Colors.white,
-                            ),
-                            top: size.height / 5,
-                            left: size.width - 40.0,
-                          ),
-                          Positioned(
-                            child: Icon(
-                              Icons.comment,
-                              color: Colors.white,
-                            ),
-                            top: size.height / 4,
-                            left: size.width - 40.0,
-                          ),
-                        ],
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        snapshot.data.documents[widget.boatIndex]['image'],
+                        fit: BoxFit.cover,
+                        width: 1000.0,
+                        height: 500.0,
                       ),
-                    )),
+                      Positioned(
+                        child: Icon(
+                          Icons.share,
+                          color: Colors.white,
+                        ),
+                        top: size.height / 5,
+                        left: size.width - 40.0,
+                      ),
+                      Positioned(
+                        child: Icon(
+                          Icons.comment,
+                          color: Colors.white,
+                        ),
+                        top: size.height / 4,
+                        left: size.width - 40.0,
+                      ),
+                    ],
+                  ),
+                )),
 
                 // Extruding edge from the sliver appbar, may need to fix expanded height
                 expandedHeight: MediaQuery.of(context).size.height / 2.71,
@@ -71,7 +72,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                   padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 15.0),
                   child: Text(
                     snapshot.data.documents[widget.boatIndex]['title'],
-                    style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -86,8 +88,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                             padding: const EdgeInsets.all(10.0),
                             child: CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage(boatList
-                                  .boats[1].owner.tempProfileImage),
+                              backgroundImage: NetworkImage(''),
                             ),
                           ),
                           Expanded(
@@ -98,8 +99,10 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    snapshot.data.documents[widget.boatIndex]['location'],
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    snapshot.data.documents[widget.boatIndex]
+                                        ['location'],
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3.0),
@@ -107,14 +110,18 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                       children: <Widget>[
                                         Text(
                                           "Owned by",
-                                          style: TextStyle(color: Colors.black54),
+                                          style:
+                                              TextStyle(color: Colors.black54),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 3.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 3.0),
                                           child: Text(
-                                            snapshot.data.documents[widget.boatIndex]['owner'],
-                                            style:
-                                            TextStyle(color: Color(0xFF1976D2)),
+                                            snapshot.data
+                                                    .documents[widget.boatIndex]
+                                                ['owner'],
+                                            style: TextStyle(
+                                                color: Color(0xFF1976D2)),
                                           ),
                                         )
                                       ],
@@ -133,7 +140,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                   color: Color(0xFF1976D2),
                                 ),
                                 Text(
-                                  snapshot.data.documents[widget.boatIndex]['location'],
+                                  snapshot.data.documents[widget.boatIndex]
+                                      ['location'],
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 )
                               ],
@@ -160,7 +168,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         ),
                       ),
                       Text(
-                        snapshot.data.documents[widget.boatIndex]['description'],
+                        snapshot.data.documents[widget.boatIndex]
+                            ['description'],
                         style: TextStyle(color: Colors.grey, fontSize: 15.0),
                       ),
                       Padding(
@@ -172,7 +181,8 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                       ),
                       Text(
                         snapshot.data.documents[widget.boatIndex]['price'],
-                        style: TextStyle(color: Colors.blueAccent, fontSize: 15.0),
+                        style:
+                            TextStyle(color: Colors.blueAccent, fontSize: 15.0),
                       ),
                     ],
                   ),

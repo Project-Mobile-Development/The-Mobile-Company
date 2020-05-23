@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Models/user_model.dart';
 
 import '../Utilities/globals.dart';
-import '../Pages/home_page.dart';
+import '../Pages/home_page_OLD.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -210,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
+                                      builder: (context) => HomeScreenOLD()),
                                 );
                               }
                             },

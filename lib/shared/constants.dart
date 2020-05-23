@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const textInputDecoration = InputDecoration(
+const kTextInputDecoration = InputDecoration(
   fillColor: Colors.white,
   filled: true,
   enabledBorder: OutlineInputBorder(
@@ -8,3 +8,6 @@ const textInputDecoration = InputDecoration(
   focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.white, width: 2.0)),
 );
+
+const kFloatingButtonTextStyle =
+    TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
