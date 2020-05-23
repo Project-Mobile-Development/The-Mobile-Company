@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
         title: 'Boat2Me',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // This is the theme of our application
           primarySwatch: Colors.blue,
         ),
         home: Wrapper(),
@@ -32,7 +31,6 @@ class MyApp extends StatelessWidget {
           ProfileInfo.pageId: (context) => ProfileInfo(),
           BoatListing.pageId: (context) => BoatListing(),
           BoatOverviewScreen.pageId: (context) => BoatOverviewScreen(),
-          //HomeScreenOLD.pageId: (context) => HomeScreenOLD(),
         },
       ),
     );
