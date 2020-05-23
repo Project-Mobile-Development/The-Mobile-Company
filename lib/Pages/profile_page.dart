@@ -1,20 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/screens/auth/sign_in.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Utilities/globals.dart';
-import 'home_page.dart';
+import 'home_page_OLD.dart';
 import '../Models/user_model.dart';
 
-class ProfileScreen extends StatefulWidget {
+class OldProfileScreen extends StatefulWidget {
+  static String pageId = 'oldProfileScreen';
   @override
-  ProfileScreenState createState() => ProfileScreenState();
+  OldProfileScreenState createState() => OldProfileScreenState();
 }
 
-class ProfileScreenState extends State<ProfileScreen> {
+class OldProfileScreenState extends State<OldProfileScreen> {
   User updatedUser = User();
   bool _autoValidate = false;
   Future<File> imageFile;
@@ -448,7 +448,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
+                                      builder: (context) => HomeScreenOLD()),
                                 );
                               }
                             },
