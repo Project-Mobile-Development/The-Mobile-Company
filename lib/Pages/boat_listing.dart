@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Models/user_model.dart';
@@ -32,6 +33,8 @@ class _BoatListingState extends State<BoatListing> {
   String title = '';
   String description = '';
 
+  String _uid = '';
+
   //POST MINUTES
   String startingTime = '';
   String duration = '';
@@ -47,6 +50,17 @@ class _BoatListingState extends State<BoatListing> {
 
   String _url = '';
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  getCurrentUser() async {
+    final FirebaseUser user = await _auth.currentUser();
+    final uid = user.uid;
+
+    setState(() {
+      _uid = uid;
+    });
+  }
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -60,7 +74,7 @@ class _BoatListingState extends State<BoatListing> {
     String fileName = basename(_image.path);
     //GETTING THE FILE REFERENCE
     StorageReference firebaseStorageRef =
-    FirebaseStorage.instance.ref().child(fileName);
+        FirebaseStorage.instance.ref().child(fileName);
     //PUT THE FILE INTO FIREBASE
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
     //CHECK IF IT IS COMPLETED OR NOT
@@ -81,9 +95,7 @@ class _BoatListingState extends State<BoatListing> {
       builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
         return (_image != null)
             ? Image.file(_image, fit: BoxFit.fill)
-            : Center(child: Text(
-            'Pick image'
-        ));
+            : Center(child: Text('Pick image'));
       },
     );
   }
@@ -161,28 +173,28 @@ class _BoatListingState extends State<BoatListing> {
                   children: <Widget>[
                     Center(
                         child: Padding(
-                          padding: EdgeInsets.only(top: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              getImage();
-                            },
-                            child: Container(
-                                width: 140.0,
-                                height: 140.0,
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: new Border.all(
-                                      color: Colors.blue,
-                                      width: 2.0,
-                                      style: BorderStyle.solid),
-                                ),
-                                child: showImage()),
-                          ),
-                        )),
+                      padding: EdgeInsets.only(top: 15.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: Container(
+                            width: 140.0,
+                            height: 140.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: new Border.all(
+                                  color: Colors.blue,
+                                  width: 2.0,
+                                  style: BorderStyle.solid),
+                            ),
+                            child: showImage()),
+                      ),
+                    )),
                     SizedBox(height: 20.0),
                     TextFormField(
                       decoration:
-                      kTextInputDecoration.copyWith(hintText: 'Title*'),
+                          kTextInputDecoration.copyWith(hintText: 'Title*'),
                       validator: (val) => val.isEmpty ? 'Enter a title' : null,
                       onChanged: (val) {
                         setState(() => title = val);
@@ -193,7 +205,7 @@ class _BoatListingState extends State<BoatListing> {
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Description*'),
                       validator: (val) =>
-                      val.isEmpty ? 'Enter a description' : null,
+                          val.isEmpty ? 'Enter a description' : null,
                       onChanged: (val) {
                         setState(() => description = val);
                       },
@@ -202,8 +214,7 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Duration in minutes*'),
-                      validator: (val) =>
-                      val.isEmpty
+                      validator: (val) => val.isEmpty
                           ? 'Enter a duration of the boat tour'
                           : null,
                       onChanged: (val) {
@@ -214,8 +225,7 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Boat Capacity*'),
-                      validator: (val) =>
-                      val.isEmpty
+                      validator: (val) => val.isEmpty
                           ? 'Enter a maximum capacity for the boat tour'
                           : null,
                       onChanged: (val) {
@@ -226,9 +236,8 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       keyboardType: TextInputType.number,
                       decoration:
-                      kTextInputDecoration.copyWith(hintText: 'Price*'),
-                      validator: (val) =>
-                      val.isEmpty
+                          kTextInputDecoration.copyWith(hintText: 'Price*'),
+                      validator: (val) => val.isEmpty
                           ? 'Enter a price for the boat tour'
                           : null,
                       onChanged: (val) {
@@ -238,9 +247,8 @@ class _BoatListingState extends State<BoatListing> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       decoration:
-                      kTextInputDecoration.copyWith(hintText: 'Location*'),
-                      validator: (val) =>
-                      val.isEmpty
+                          kTextInputDecoration.copyWith(hintText: 'Location*'),
+                      validator: (val) => val.isEmpty
                           ? 'Enter a starting location for your boat tour'
                           : null,
                       onChanged: (val) {
@@ -261,11 +269,16 @@ class _BoatListingState extends State<BoatListing> {
           children: <Widget>[
             FloatingActionButton.extended(
               onPressed: () async {
+                final FirebaseUser user = await _auth.currentUser();
+                final uid = user.uid;
+                print(uid);
+
                 if (_formKey.currentState.validate()) {
                   if (_url != '') {
                     Firestore.instance.runTransaction((transaction) async {
                       await transaction.set(
                           Firestore.instance.collection("boats").document(), {
+                        'userId': uid,
                         'owner': 'test owner',
                         'title': title,
                         'type': 'test type',

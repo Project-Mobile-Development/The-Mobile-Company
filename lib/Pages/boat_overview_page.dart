@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/services/database.dart';
 
 import '../Models/boat_model_list.dart';
 
@@ -11,6 +12,38 @@ class BoatOverviewScreen extends StatefulWidget {
 
   @override
   _BoatOverviewScreenState createState() => _BoatOverviewScreenState();
+}
+
+getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
+  print(snapshot.data.documents[widget.boatIndex]['userId']);
+  return new StreamBuilder(
+      stream: Firestore.instance
+          .collection('users')
+          .document(snapshot.data.documents[widget.boatIndex]['userId'])
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return new Text("Loading");
+        }
+        var userDocument = snapshot.data;
+        print('test: ' + userDocument.toString());
+        return new Text(userDocument['firstName']);
+      });
+  DocumentReference documentReference =
+      Firestore.instance.collection('users').document();
+  print(documentReference.documentID);
+  await Firestore.instance
+      .collection('users')
+      .where(documentReference.documentID,
+          isEqualTo: snapshot.data.documents[widget.boatIndex]['userId'])
+      .getDocuments()
+      .then((val) {
+    if (val.documents.length > 0) {
+      print(val.documents[0].data["firstName"]);
+    } else {
+      print("Not Found");
+    }
+  });
 }
 
 class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
@@ -109,21 +142,25 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                     child: Row(
                                       children: <Widget>[
                                         Text(
-                                          "Owned by",
+                                          "Owned by ",
                                           style:
                                               TextStyle(color: Colors.black54),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 3.0),
-                                          child: Text(
-                                            snapshot.data
-                                                    .documents[widget.boatIndex]
-                                                ['owner'],
-                                            style: TextStyle(
-                                                color: Color(0xFF1976D2)),
-                                          ),
-                                        )
+                                        StreamBuilder(
+                                            stream: Firestore.instance
+                                                .collection('users')
+                                                .document(snapshot
+                                                        .data.documents[
+                                                    widget.boatIndex]['userId'])
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return new Text("Loading");
+                                              }
+                                              var userDocument = snapshot.data;
+                                              return new Text(
+                                                  userDocument['firstName'] + ' ' + userDocument['lastName']);
+                                            }),
                                       ],
                                     ),
                                   ),
