@@ -21,4 +21,17 @@ class User {
       this.phoneNumber,
       this.profileImageURL,
       this.profileImage});
+
+  User.fromData(Map<String, dynamic> data)
+      : uid = data['id'],
+        firstName = data['fullName'],
+        email = data['email'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': uid,
+      'fullName': firstName,
+      'email': email,
+    };
+  }
 }

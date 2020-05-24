@@ -10,12 +10,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../Models/boat_model.dart';
-import '../Widgets/header.dart';
 import 'package:path/path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BoatListing extends StatefulWidget {
   static String pageId = 'boatListingPage';
+
   @override
   _BoatListingState createState() => _BoatListingState();
 }
@@ -27,18 +27,25 @@ class _BoatListingState extends State<BoatListing> {
   Future<File> imageFile;
 
   File _image;
+
   //THINK THEY SHOULD BE ALL PRIVATE VARIABLES (add _ at the start)
   String title = '';
   String description = '';
+
   //POST MINUTES
   String startingTime = '';
   String duration = '';
+
   //PROBABLY BETTER TO SAVE IT AS A STRING
   String boatCapacity = '';
+
   //PROBABLY BETTER TO SAVE IT AS A FLOAT WITH ONE DECIMAL NUMBER
   String price = '';
+
   //MAYBE CHANGE IT IN THE FUTURE TO USE GEODATA (NOT YET THO) - Google API
   String location = '';
+
+  String _url = '';
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -48,59 +55,35 @@ class _BoatListingState extends State<BoatListing> {
     });
   }
 
-  Future uploadPic(BuildContext context) async {
+  Future uploadPic() async {
     //TO MAKE IT MORE READABLE
     String fileName = basename(_image.path);
     //GETTING THE FILE REFERENCE
     StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
+    FirebaseStorage.instance.ref().child(fileName);
     //PUT THE FILE INTO FIREBASE
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
     //CHECK IF IT IS COMPLETED OR NOT
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+    String url = (await firebaseStorageRef.getDownloadURL()).toString();
+
+    setState(() {
+      _url = url;
+      //print('Image Path $_image');
+    });
   }
 
-//  pickImageFromGallery(ImageSource source) {
-//    setState(() {
-//      imageFile = ImagePicker.pickImage(source: source);
-//    });
-//  }
-
   Widget showImage() {
+    uploadPic();
     return FutureBuilder<File>(
       future: imageFile,
       builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          return Container(
-              width: 140.0,
-              height: 140.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: Image.file(
-                    snapshot.data,
-                    width: 300,
-                    height: 300,
-                  ).image,
-                  fit: BoxFit.cover,
-                ),
-              ));
-        } else if (snapshot.error != null) {
-          return const Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Text(
-                'Error picking an image',
-                textAlign: TextAlign.center,
-              ));
-        } else {
-          return const Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Text(
-                'Add an image',
-                textAlign: TextAlign.center,
-              ));
-        }
+        return (_image != null)
+            ? Image.file(_image, fit: BoxFit.fill)
+            : Center(child: Text(
+            'Pick image'
+        ));
       },
     );
   }
@@ -178,29 +161,28 @@ class _BoatListingState extends State<BoatListing> {
                   children: <Widget>[
                     Center(
                         child: Padding(
-                      padding: EdgeInsets.only(top: 15.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          getImage();
-                        },
-                        child: Container(
-                          width: 140.0,
-                          height: 140.0,
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: new Border.all(
-                                color: Colors.blue,
-                                width: 2.0,
-                                style: BorderStyle.solid),
+                          padding: EdgeInsets.only(top: 15.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              getImage();
+                            },
+                            child: Container(
+                                width: 140.0,
+                                height: 140.0,
+                                decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: new Border.all(
+                                      color: Colors.blue,
+                                      width: 2.0,
+                                      style: BorderStyle.solid),
+                                ),
+                                child: showImage()),
                           ),
-                          child: showImage(),
-                        ),
-                      ),
-                    )),
+                        )),
                     SizedBox(height: 20.0),
                     TextFormField(
                       decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Title*'),
+                      kTextInputDecoration.copyWith(hintText: 'Title*'),
                       validator: (val) => val.isEmpty ? 'Enter a title' : null,
                       onChanged: (val) {
                         setState(() => title = val);
@@ -211,7 +193,7 @@ class _BoatListingState extends State<BoatListing> {
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Description*'),
                       validator: (val) =>
-                          val.isEmpty ? 'Enter a description' : null,
+                      val.isEmpty ? 'Enter a description' : null,
                       onChanged: (val) {
                         setState(() => description = val);
                       },
@@ -220,7 +202,8 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Duration in minutes*'),
-                      validator: (val) => val.isEmpty
+                      validator: (val) =>
+                      val.isEmpty
                           ? 'Enter a duration of the boat tour'
                           : null,
                       onChanged: (val) {
@@ -231,7 +214,8 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Boat Capacity*'),
-                      validator: (val) => val.isEmpty
+                      validator: (val) =>
+                      val.isEmpty
                           ? 'Enter a maximum capacity for the boat tour'
                           : null,
                       onChanged: (val) {
@@ -242,8 +226,9 @@ class _BoatListingState extends State<BoatListing> {
                     TextFormField(
                       keyboardType: TextInputType.number,
                       decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Price*'),
-                      validator: (val) => val.isEmpty
+                      kTextInputDecoration.copyWith(hintText: 'Price*'),
+                      validator: (val) =>
+                      val.isEmpty
                           ? 'Enter a price for the boat tour'
                           : null,
                       onChanged: (val) {
@@ -253,8 +238,9 @@ class _BoatListingState extends State<BoatListing> {
                     SizedBox(height: 20.0),
                     TextFormField(
                       decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Location*'),
-                      validator: (val) => val.isEmpty
+                      kTextInputDecoration.copyWith(hintText: 'Location*'),
+                      validator: (val) =>
+                      val.isEmpty
                           ? 'Enter a starting location for your boat tour'
                           : null,
                       onChanged: (val) {
@@ -276,18 +262,21 @@ class _BoatListingState extends State<BoatListing> {
             FloatingActionButton.extended(
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  Firestore.instance.runTransaction((transaction) async {
-                    await transaction.set(
-                        Firestore.instance.collection("boats").document(), {
-                      'owner': 'test owner',
-                      'title': title,
-                      'type': 'test type',
-                      'image': uploadPic(context),
-                      'location': location,
-                      'price': price,
-                      'description': description,
+                  if (_url != '') {
+                    Firestore.instance.runTransaction((transaction) async {
+                      await transaction.set(
+                          Firestore.instance.collection("boats").document(), {
+                        'owner': 'test owner',
+                        'title': title,
+                        'type': 'test type',
+                        'image': _url,
+                        'location': location,
+                        'price': price,
+                        'description': description,
+                      });
                     });
-                  });
+                  }
+
                   Navigator.pushNamed(context, HomePage.pageId);
                 }
               },

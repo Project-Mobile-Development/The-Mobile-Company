@@ -38,7 +38,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                     background: Container(
                   child: Stack(
                     children: <Widget>[
-                      Image.asset(
+                      Image.network(
                         snapshot.data.documents[widget.boatIndex]['image'],
                         fit: BoxFit.cover,
                         width: 1000.0,
