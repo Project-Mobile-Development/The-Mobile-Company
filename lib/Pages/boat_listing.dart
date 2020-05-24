@@ -119,52 +119,6 @@ class _BoatListingState extends State<BoatListing> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-//            Stack(
-//              children: <Widget>[
-//                Header(),
-//                GestureDetector(
-//                  onTap: () {
-//                    Navigator.pop(context);
-//                  },
-//                  child: Align(
-//                    alignment: Alignment.bottomLeft,
-//                    child: Padding(
-//                      padding: const EdgeInsets.only(top: 60.0),
-//                      child: IconButton(
-//                        icon: Icon(Icons.arrow_downward),
-//                        onPressed: () {
-//                          Navigator.pop(context);
-//                        },
-//                        color: Color(0xFFFCFCFC),
-//                        iconSize: 30.0,
-//                      ),
-//                    ),
-//                  ),
-//                ),
-//                Align(
-//                  alignment: Alignment.bottomCenter,
-//                  child: Padding(
-//                    padding: EdgeInsets.only(top: 70.0),
-//                    child: Text(
-//                      "List your boat",
-//                      style: TextStyle(
-//                          fontSize: 20.0,
-//                          fontWeight: FontWeight.bold,
-//                          color: Color(0xFFFCFCFC)),
-//                    ),
-//                  ),
-//                ),
-//                Padding(
-//                  padding: EdgeInsets.only(
-//                    top: 40.0,
-//                    left: 10.0,
-//                  ),
-//                  child: Align(
-//                    alignment: Alignment.topLeft,
-//                  ),
-//                )
-//              ],
-//            ),
             Container(
               child: Form(
                 key: _formKey,
@@ -212,6 +166,7 @@ class _BoatListingState extends State<BoatListing> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Duration in minutes*'),
                       validator: (val) => val.isEmpty
@@ -223,6 +178,7 @@ class _BoatListingState extends State<BoatListing> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: kTextInputDecoration.copyWith(
                           hintText: 'Boat Capacity*'),
                       validator: (val) => val.isEmpty
@@ -262,89 +218,42 @@ class _BoatListingState extends State<BoatListing> {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FloatingActionButton.extended(
-              onPressed: () async {
-                final FirebaseUser user = await _auth.currentUser();
-                final uid = user.uid;
-                print(uid);
-
-                if (_formKey.currentState.validate()) {
-                  if (_url != '') {
-                    Firestore.instance.runTransaction((transaction) async {
-                      await transaction.set(
-                          Firestore.instance.collection("boats").document(), {
-                        'userId': uid,
-                        'owner': 'test owner',
-                        'title': title,
-                        'type': 'test type',
-                        'image': _url,
-                        'location': location,
-                        'price': price,
-                        'description': description,
-                      });
-                    });
-                  }
-
-                  Navigator.pushNamed(context, HomePage.pageId);
-                }
-              },
-              label: Text(
-                'List Boat',
-                style: kFloatingButtonTextStyle,
-              ),
-              icon: Icon(
-                FontAwesomeIcons.plusCircle,
-                size: 25.0,
-              ),
-            ),
-          ],
+      bottomNavigationBar: Container(
+        color: Colors.blue,
+        child: MaterialButton(
+          onPressed: () async {
+            final FirebaseUser user = await _auth.currentUser();
+            final uid = user.uid;
+            print(uid);
+            if (_formKey.currentState.validate()) {
+              if (_url != '') {
+                Firestore.instance.runTransaction((transaction) async {
+                  await transaction
+                      .set(Firestore.instance.collection("boats").document(), {
+                    'userId': uid,
+                    'owner': 'test owner',
+                    'title': title,
+                    'type': 'test type',
+                    'image': _url,
+                    'location': location,
+                    'price': price,
+                    'description': description,
+                  });
+                });
+              }
+              Navigator.pushNamed(context, HomePage.pageId);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Text("List boat",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.w600)),
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-//      bottomNavigationBar: Container(
-//        decoration: BoxDecoration(
-//            gradient: LinearGradient(
-//                colors: [
-//                  const Color(0xFF81C784),
-//                  const Color(0xFFA5D6A7),
-//                ],
-//                begin: const FractionalOffset(0.0, 0.0),
-//                end: const FractionalOffset(0.9, 0.0),
-//                stops: [0.0, 0.9],
-//                tileMode: TileMode.clamp)),
-//        child: MaterialButton(
-//          onPressed: () async {
-//            if (_formKey.currentState.validate()) {
-//              Firestore.instance.runTransaction((transaction) async {
-//                await transaction
-//                    .set(Firestore.instance.collection("boats").document(), {
-//                  'owner': 'test owner',
-//                  'title': title,
-//                  'type': 'test type',
-//                  'image': uploadPic(context),
-//                  'location': location,
-//                  'price': price,
-//                  'description': description,
-//                });
-//              });
-//              Navigator.pushNamed(context, HomePage.pageId);
-//            }
-//          },
-//          child: Padding(
-//            padding: const EdgeInsets.all(30.0),
-//            child: Text("List boat",
-//                style: TextStyle(
-//                    color: Colors.white,
-//                    fontSize: 22.0,
-//                    fontWeight: FontWeight.w600)),
-//          ),
-//        ),
-//      ),
     );
   }
 }

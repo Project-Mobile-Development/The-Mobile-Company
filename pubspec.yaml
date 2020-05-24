@@ -38,6 +38,8 @@ dependencies:
   #To upload images
   image_picker: ^0.4.10
 
+  animated_text_kit: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
