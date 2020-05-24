@@ -142,7 +142,7 @@ class HomePage extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width,
                                   height: 200.0,
                                   //TODO: Replace with boat image
-                                  child: Image.asset(
+                                  child: Image.network(
                                     document['image'],
                                     fit: BoxFit.fill,
                                   ),
