@@ -193,24 +193,14 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
         },
       ),
       bottomNavigationBar: new Container(
-        decoration: new BoxDecoration(
-            //   shape: BoxShape.circle,
-            gradient: new LinearGradient(
-                colors: [
-                  const Color(0xFF1976D2),
-                  const Color(0xFF1976D2),
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(0.9, 0.0),
-                stops: [0.0, 0.9],
-                tileMode: TileMode.clamp)),
+        color: Colors.blue,
         child: new MaterialButton(
           onPressed: () {
             //  saveMoist();
           },
           child: new Padding(
             padding: const EdgeInsets.all(24.0),
-            child: new Text("Rent Now",
+            child: new Text("Contact the boat owner",
                 style: new TextStyle(
                     color: Colors.white,
                     fontSize: 22.0,
