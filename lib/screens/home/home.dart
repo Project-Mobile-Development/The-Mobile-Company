@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Boat2Me'),
@@ -152,7 +152,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       document['title'],
@@ -181,7 +181,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
