@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Models/user_model.dart';
@@ -53,11 +54,14 @@ class _BoatListingState extends State<BoatListing> {
     String fileName = basename(_image.path);
     //GETTING THE FILE REFERENCE
     StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
+    FirebaseStorage.instance.ref().child(fileName);
     //PUT THE FILE INTO FIREBASE
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
     //CHECK IF IT IS COMPLETED OR NOT
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+    return firebaseStorageRef.getDownloadURL()
+        .then((uri) => uri.toString());
   }
 
 //  pickImageFromGallery(ImageSource source) {
@@ -193,7 +197,12 @@ class _BoatListingState extends State<BoatListing> {
                                 width: 2.0,
                                 style: BorderStyle.solid),
                           ),
-                          child: showImage(),
+                          child: (_image != null)
+                              ? Image.file(_image, fit: BoxFit.fill)
+                              : Image.network(
+                            'https://picsum.photos/250?image=9',
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                     )),
@@ -275,14 +284,17 @@ class _BoatListingState extends State<BoatListing> {
           children: <Widget>[
             FloatingActionButton.extended(
               onPressed: () async {
+
                 if (_formKey.currentState.validate()) {
+                  uploadPic(context);
+
                   Firestore.instance.runTransaction((transaction) async {
                     await transaction.set(
                         Firestore.instance.collection("boats").document(), {
                       'owner': 'test owner',
                       'title': title,
                       'type': 'test type',
-                      'image': uploadPic(context),
+                      'image':  _image.path,
                       'location': location,
                       'price': price,
                       'description': description,

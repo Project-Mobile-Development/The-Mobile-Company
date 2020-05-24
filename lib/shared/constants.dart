@@ -10,4 +10,10 @@ const kTextInputDecoration = InputDecoration(
 );
 
 const kFloatingButtonTextStyle =
-    TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+
+const kBoatCardImportantTextStyle =
+TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+
+const kBoatCardNonImportantTextStyle = TextStyle(
+    fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.blueGrey);
