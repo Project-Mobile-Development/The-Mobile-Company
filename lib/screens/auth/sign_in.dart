@@ -31,81 +31,221 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 250.0),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        TypewriterAnimatedTextKit(
-                          text: ['Boat 2 Me'],
-                          textStyle: TextStyle(
-                              fontSize: 45.0,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blue),
-                          speed: Duration(milliseconds: 350),
-                          totalRepeatCount: 1,
-                        ),
-                        SizedBox(height: 20.0),
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration:
-                              kTextFieldDecoration.copyWith(hintText: 'Email*'),
-                          validator: (val) =>
-                              val.isEmpty ? 'Enter an email' : null,
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          },
-                        ),
-                        SizedBox(height: 20.0),
-                        TextFormField(
-                          decoration: kTextFieldDecoration.copyWith(
-                              hintText: 'Password*'),
-                          obscureText: true,
-                          validator: (val) => val.length < 6
-                              ? 'Enter a password 6+ chars long'
-                              : null,
-                          onChanged: (val) {
-                            setState(() => password = val);
-                          },
-                        ),
-                        SizedBox(height: 20.0),
-                        RoundedButton(
-                          colour: Colors.blue,
-                          title: 'Sign in',
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() => loading = true);
-                              dynamic result = await _auth
-                                  .signInWitEmailAndPassword(email, password);
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: kLoginBoxDecoration,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: 120.0,
+                                top: 95.0,
+                                right: 120.0,
+                                bottom:
+                                    (MediaQuery.of(context).size.height / 7) -
+                                        15),
+                            child: Center(
+                              child: Icon(
+                                Icons.directions_boat,
+                                color: Colors.blueAccent,
+                                size: 50.0,
+                              ),
+                            ),
+                          ),
+                          new Row(
+                            children: <Widget>[
+                              new Expanded(
+                                child: new Padding(
+                                  padding: const EdgeInsets.only(left: 40.0),
+                                  child: new Text(
+                                    "EMAIL",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          new Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin:
+                                const EdgeInsets.only(left: 40.0, right: 40.0),
+                            alignment: Alignment.center,
+                            padding:
+                                const EdgeInsets.only(left: 0.0, right: 10.0),
+                            child: new Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                new Expanded(
+                                  child: TextFormField(
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                      enabledBorder: new UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.blueAccent,
+                                            width: 0.8,
+                                            style: BorderStyle.solid),
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (val) =>
+                                        val.isEmpty ? 'Enter an email' : null,
+                                    onChanged: (val) {
+                                      setState(() => email = val);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 24.0,
+                          ),
+                          new Row(
+                            children: <Widget>[
+                              new Expanded(
+                                child: new Padding(
+                                  padding: const EdgeInsets.only(left: 40.0),
+                                  child: new Text(
+                                    "PASSWORD",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          new Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin:
+                                const EdgeInsets.only(left: 40.0, right: 40.0),
+                            alignment: Alignment.center,
+                            padding:
+                                const EdgeInsets.only(left: 0.0, right: 10.0),
+                            child: new Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                new Expanded(
+                                  child: TextFormField(
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                      enabledBorder: new UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.blueAccent,
+                                            width: 0.8,
+                                            style: BorderStyle.solid),
+                                      ),
+                                    ),
+                                    obscureText: true,
+                                    validator: (val) => val.length < 6
+                                        ? 'Enter a password 6+ chars long'
+                                        : null,
+                                    onChanged: (val) {
+                                      setState(() => password = val);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 15.0,
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: new FlatButton(
+                                  child: new Text(
+                                    "Don't have an account? Sign up now",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      fontSize: 15.0,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                  onPressed: () => {widget.toggleView()},
+                                ),
+                              ),
+                            ],
+                          ),
+                          new Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(
+                                left: 30.0, right: 30.0, top: 35.0),
+                            alignment: Alignment.center,
+                            child: new Row(
+                              children: <Widget>[
+                                new Expanded(
+                                  child: new FlatButton(
+                                    shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(30.0),
+                                    ),
+                                    color: Colors.blueAccent,
+                                    onPressed: () async {
+                                      if (_formKey.currentState.validate()) {
+                                        setState(() => loading = true);
+                                        dynamic result = await _auth
+                                            .signInWitEmailAndPassword(
+                                                email, password);
 
-                              if (result == null) {
-                                setState(() {
-                                  error =
-                                      'Could not sign in with those credentials';
-                                  loading = false;
-                                });
-                              }
-                            }
-                          },
-                        ),
-                        RoundedButton(
-                          colour: Colors.red,
-                          title: 'Register',
-                          onPressed: () {
-                            widget.toggleView();
-                          },
-                        ),
-                        Text(
-                          error,
-                          style: kErrorSignInTextStyle,
-                        ),
-                      ],
+                                        if (result == null) {
+                                          setState(() {
+                                            error =
+                                                'Could not sign in with those credentials';
+                                            loading = false;
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: new Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 20.0,
+                                        horizontal: 20.0,
+                                      ),
+                                      child: new Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          new Expanded(
+                                            child: Text(
+                                              "LOGIN",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
