@@ -173,7 +173,7 @@ class _BoatListingState extends State<BoatListing> {
                           ? 'Enter a duration of the boat tour'
                           : null,
                       onChanged: (val) {
-                        setState(() => description = val);
+                        setState(() => duration = val);
                       },
                     ),
                     SizedBox(height: 20.0),
@@ -185,14 +185,14 @@ class _BoatListingState extends State<BoatListing> {
                           ? 'Enter a maximum capacity for the boat tour'
                           : null,
                       onChanged: (val) {
-                        setState(() => description = val);
+                        setState(() => boatCapacity = val);
                       },
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
                       keyboardType: TextInputType.number,
                       decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Price*'),
+                          kTextInputDecoration.copyWith(hintText: 'Price per hour*'),
                       validator: (val) => val.isEmpty
                           ? 'Enter a price for the boat tour'
                           : null,
@@ -231,13 +231,13 @@ class _BoatListingState extends State<BoatListing> {
                   await transaction
                       .set(Firestore.instance.collection("boats").document(), {
                     'userId': uid,
-                    'owner': 'test owner',
-                    'title': title,
-                    'type': 'test type',
                     'image': _url,
-                    'location': location,
-                    'price': price,
+                    'title': title,
                     'description': description,
+                    'duration': duration,
+                    'boatCapacity': boatCapacity,
+                    'price': price,
+                    'location': location
                   });
                 });
               }
