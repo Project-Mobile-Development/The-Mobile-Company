@@ -13,9 +13,7 @@ class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context,) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Boat2Me'),
@@ -123,7 +121,10 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     height: 350.0,
                     child: Padding(
                       padding: EdgeInsets.only(top: 20.0, bottom: 8.0),
@@ -139,7 +140,10 @@ class HomePage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  width: MediaQuery.of(context).size.width,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
                                   height: 200.0,
                                   //TODO: Replace with boat image
                                   child: Image.network(
@@ -152,7 +156,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       document['title'],
@@ -181,21 +185,25 @@ class HomePage extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
-                                        Text(
-                                          document['price'],
-                                          style: kBoatCardImportantTextStyle,
-                                        ),
-                                        SizedBox(
-                                          width: 10.0,
-                                        ),
                                         Icon(
                                           FontAwesomeIcons.euroSign,
                                           size: 20.0,
                                           color: Colors.blueGrey,
+                                        ),
+                                        Text(
+                                          document['price'],
+                                          style: kBoatCardImportantTextStyle,
+                                        ),
+                                        Text(
+                                          ' per hour',
+                                          style: kBoatCardNonImportantTextStyle,
+                                        ),
+                                        SizedBox(
+                                          width: 10.0,
                                         ),
                                       ],
                                     ),
@@ -203,7 +211,7 @@ class HomePage extends StatelessWidget {
                                       children: <Widget>[
                                         //TODO: Replace with boat tour duration
                                         Text(
-                                          '30min',
+                                          document['duration'] + ' min',
                                           style: kBoatCardNonImportantTextStyle,
                                         ),
                                         SizedBox(
