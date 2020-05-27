@@ -39,3 +39,14 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+var kLoginBoxDecoration =  BoxDecoration(
+  color: Colors.white,
+  image: DecorationImage(
+    colorFilter: ColorFilter.mode(
+        Colors.black.withOpacity(0.05), BlendMode.dstATop),
+    image:
+    AssetImage('assets/images/login-signup-background.jpg'),
+    fit: BoxFit.cover,
+  ),
+);
