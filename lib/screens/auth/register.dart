@@ -1,10 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/screens/auth/sign_in.dart';
 import 'package:hello_rectangle/services/auth.dart';
-import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
-import 'package:hello_rectangle/Widgets/RoundedButton.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:path/path.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -416,7 +417,11 @@ class _RegisterState extends State<Register> {
                                         setState(() => loading = true);
                                         dynamic result = await _auth
                                             .registerWithEmailAndPassword(
-                                                email, password);
+                                                email,
+                                                password,
+                                                firstName,
+                                                lastName,
+                                                phoneNumber);
                                         if (result == null) {
                                           setState(() {
                                             error =
