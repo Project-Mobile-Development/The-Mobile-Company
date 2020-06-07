@@ -139,7 +139,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                   var userDocument = snapshot.data;
                                   return new CircleAvatar(
                                     radius: 30.0,
-                                    backgroundImage: AssetImage(
+                                    backgroundImage: NetworkImage(
                                         userDocument['tempProfileImage']),
                                   );
                                 }),
