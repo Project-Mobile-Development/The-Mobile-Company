@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -10,14 +13,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 
-class MyAdvertisements extends StatelessWidget {
+import 'my_boat_overview_page.dart';
+
+class MyAdvertisements extends StatefulWidget {
+  //MANDATORY VARIABLE IN EVERY PAGE FOR ROUTING PURPOSES
+  static String pageId = 'profileInfoPage';
+  @override
+  _MyAdvertisements createState() => _MyAdvertisements();
+}
+
+class _MyAdvertisements extends State<MyAdvertisements> {
   static String pageId = 'myAdvertisementsPage';
   final AuthService _auth = AuthService();
+  final FirebaseAuth __auth = FirebaseAuth.instance;
+
+  String _uid = '';
+
+  Stream<DocumentSnapshot> firestoreInstance;
+
+
+  getCurrentUser() async {
+    final FirebaseUser user = await __auth.currentUser();
+    firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
+
+    _uid = user.uid;
+
+    log('My user id ' + _uid);
+    firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
+  }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context,) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Boat2Me'),
@@ -28,15 +60,18 @@ class MyAdvertisements extends StatelessWidget {
         stream: Firestore.instance.collection('boats').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            //TODO: ADD BETTER STYLE TO THE SPINNER (SEE DOCUMENTATION ON THE DART PACKAGE)
             return Loading();
           } else {
-            return ListView.builder(
+              return ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
-                return _buildBoatList(
-                    context, snapshot.data.documents[index], index);
+                if (snapshot.data.documents[index]['userId'] == _uid) {
+                  return _buildBoatList(
+                      context, snapshot.data.documents[index], index);
+                } else {
+                  return SizedBox(height: 0);
+                }
               },
             );
           }
@@ -76,12 +111,15 @@ class MyAdvertisements extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            BoatOverviewScreen(boatIndex: index),
+                            MyBoatOverviewScreen(boatIndex: index),
                       ),
                     );
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     height: 350.0,
                     child: Padding(
                       padding: EdgeInsets.only(top: 20.0, bottom: 8.0),
@@ -97,7 +135,10 @@ class MyAdvertisements extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  width: MediaQuery.of(context).size.width,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
                                   height: 200.0,
                                   //TODO: Replace with boat image
                                   child: Image.network(
@@ -110,7 +151,7 @@ class MyAdvertisements extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       document['title'],
@@ -139,7 +180,7 @@ class MyAdvertisements extends StatelessWidget {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
