@@ -42,12 +42,12 @@ class HomePage extends StatelessWidget {
             //THIS IS THE SIDE MENU BAR
             ListTile(
               leading: Icon(
-                FontAwesomeIcons.userCircle,
+                FontAwesomeIcons.home,
                 size: 40.0,
               ),
-              title: Text('Profile'),
+              title: Text('Home'),
               onTap: () {
-                Navigator.pushNamed(context, ProfileInfo.pageId);
+                Navigator.pop(context);
               },
             ),
             SizedBox(
@@ -66,7 +66,19 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.userCircle,
+                size: 40.0,
+              ),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pushNamed(context, ProfileInfo.pageId);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
             ListTile(
               leading: Icon(
                 FontAwesomeIcons.signOutAlt,

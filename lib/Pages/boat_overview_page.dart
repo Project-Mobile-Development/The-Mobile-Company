@@ -74,22 +74,6 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         width: 1000.0,
                         height: 500.0,
                       ),
-                      Positioned(
-                        child: Icon(
-                          Icons.share,
-                          color: Colors.white,
-                        ),
-                        top: size.height / 5,
-                        left: size.width - 40.0,
-                      ),
-                      Positioned(
-                        child: Icon(
-                          Icons.comment,
-                          color: Colors.white,
-                        ),
-                        top: size.height / 4,
-                        left: size.width - 40.0,
-                      ),
                     ],
                   ),
                 )),

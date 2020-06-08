@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,7 @@ import 'package:path/path.dart';
 class ProfileInfo extends StatefulWidget {
   //MANDATORY VARIABLE IN EVERY PAGE FOR ROUTING PURPOSES
   static String pageId = 'profileInfoPage';
+
   @override
   _ProfileInfoState createState() => _ProfileInfoState();
 }
@@ -22,12 +24,10 @@ class _ProfileInfoState extends State<ProfileInfo> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final AuthService __auth = AuthService();
 
-
   File _image;
   Future<File> imageFile;
 
   String _uid = '';
-  String _url = '';
 
   // text field state
   String firstName = '';
@@ -86,13 +86,78 @@ class _ProfileInfoState extends State<ProfileInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(FontAwesomeIcons.arrowLeft),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        title: Text('Profile info'),
+        elevation: 0.0,
+      ),
+      drawer: Drawer(
+        elevation: 5.0,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Boat2Me',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            //THIS IS THE SIDE MENU BAR
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.home,
+                size: 40.0,
+              ),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pushNamed(context, HomePage.pageId);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.ship,
+                size: 35.0,
+              ),
+              title: Text('My Advertisements'),
+              onTap: () {
+                Navigator.pushNamed(context, MyAdvertisements.pageId);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.userCircle,
+                size: 40.0,
+              ),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.signOutAlt,
+                size: 40.0,
+              ),
+              title: Text('Sign out'),
+              onTap: () async {
+                await _auth.signOut();
+              },
+            ),
+          ],
         ),
-        title: Text('Profile Info'),
       ),
       body: StreamBuilder(
           stream: firestoreInstance,
@@ -406,13 +471,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                                     .collection("users")
                                                     .document(uid),
                                                 {
-                                                  'userId': uid,
-                                                  'email': email,
-                                                  'firstName': firstName,
-                                                  'lastName': lastName,
-                                                  'phoneNumber': phoneNumber,
                                                   'tempProfileImage':
                                                       tempProfileImage,
+                                                  'firstName': firstName,
+                                                  'lastName': lastName,
+                                                  'email': email,
+                                                  'phoneNumber': phoneNumber,
                                                   'password': password
                                                 });
                                           });

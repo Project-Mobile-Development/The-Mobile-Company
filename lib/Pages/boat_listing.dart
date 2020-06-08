@@ -265,7 +265,7 @@ class _BoatListingState extends State<BoatListing> {
                           child: new Padding(
                             padding: const EdgeInsets.only(left: 40.0),
                             child: new Text(
-                              "Duration",
+                              "Duration in minutes",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent,

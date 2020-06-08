@@ -1,14 +1,15 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hello_rectangle/services/database.dart';
+import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/shared/loading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../Models/boat_model_list.dart';
+import 'package:path/path.dart';
 
 class MyBoatOverviewScreen extends StatefulWidget {
   static String pageId = 'boatOverviewScreen';
@@ -29,10 +30,6 @@ void customLaunch(command) async {
 }
 
 class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
-  String _ownerName = '';
-  String _ownerEmail = '';
-  String _ownerPhoneNumber = '';
-
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -50,11 +47,46 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
 
   String error = '';
 
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      uploadPic();
+    });
+  }
+
+  Future uploadPic() async {
+    //TO MAKE IT MORE READABLE
+    String fileName = basename(_image.path) + ".jpg";
+
+    //GETTING THE FILE REFERENCE
+    StorageReference firebaseStorageRef =
+    FirebaseStorage.instance.ref().child(fileName);
+    //PUT THE FILE INTO FIREBASE
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    //CHECK IF IT IS COMPLETED OR NOT
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+    String url = (await firebaseStorageRef.getDownloadURL()).toString();
+
+    image = url;
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(FontAwesomeIcons.arrowLeft),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Boat Editing'),
+      ),
       body: StreamBuilder(
           stream: Firestore.instance.collection('boats').snapshots(),
           builder: (context, snapshot) {
@@ -62,12 +94,6 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
               return Loading();
             } else {
               var boat = snapshot.data.documents[widget.boatIndex];
-
-              final collRef = Firestore.instance.collection('boats');
-              var docReference = collRef.document();
-
-
-              log('test log: ' + docReference.documentID);
 
               title = boat['title'];
               userId = boat['userId'];
@@ -98,40 +124,40 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                             ),
                             Align(
                               alignment: Alignment.center,
-//                              child: GestureDetector(
-//                                onTap: () {
-////                                  getImage();
-//                                },
-//                                child: CircleAvatar(
-//                                  radius: 100,
-//                                  backgroundColor: Colors.blue,
-//                                  child: ClipOval(
-////                                    child: SizedBox(
-////                                        width: 200.0,
-////                                        height: 200.0,
-////                                        child: (() {
-////                                          if (_image != null) {
-////                                            return Image.file(_image,
-////                                                fit: BoxFit.cover);
-////                                          } else if (tempProfileImage != null &&
-////                                              tempProfileImage != "") {
-////                                            return Image.network(
-////                                              tempProfileImage,
-////                                              fit: BoxFit.cover,
-////                                            );
-////                                          } else if (_image != null) {
-////                                            return Image.file(_image,
-////                                                fit: BoxFit.fill);
-////                                          } else {
-////                                            return Image.network(
-////                                              'https://picsum.photos/250?image=9',
-////                                              fit: BoxFit.cover,
-////                                            );
-////                                          }
-////                                        }())),
-//                                  ),
-//                                ),
-//                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  getImage();
+                                },
+                                child: CircleAvatar(
+                                  radius: 100,
+                                  backgroundColor: Colors.blue,
+                                  child: ClipOval(
+                                    child: SizedBox(
+                                        width: 200.0,
+                                        height: 200.0,
+                                        child: (() {
+                                          if (_image != null) {
+                                            return Image.file(_image,
+                                                fit: BoxFit.cover);
+                                          } else if (image != null &&
+                                              image != "") {
+                                            return Image.network(
+                                              image,
+                                              fit: BoxFit.cover,
+                                            );
+                                          } else if (_image != null) {
+                                            return Image.file(_image,
+                                                fit: BoxFit.fill);
+                                          } else {
+                                            return Image.network(
+                                              'https://picsum.photos/250?image=9',
+                                              fit: BoxFit.cover,
+                                            );
+                                          }
+                                        }())),
+                                  ),
+                                ),
+                              ),
                             ),
                             Divider(height: 60.0, color: Colors.white),
                             new Row(
@@ -331,9 +357,111 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                       ),
                                       initialValue: boatCapacity,
                                       validator: (val) =>
-                                      val.isEmpty ? 'Enter an email' : null,
+                                      val.isEmpty ? 'Enter a capacity' : null,
                                       onChanged: (val) {
                                         boatCapacity = val;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            new Row(
+                              children: <Widget>[
+                                new Expanded(
+                                  child: new Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 40.0, top: 25.0),
+                                    child: new Text(
+                                      "Price",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blueAccent,
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.only(
+                                  left: 40.0, right: 40.0),
+                              alignment: Alignment.center,
+                              padding:
+                              const EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: new Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  new Expanded(
+                                    child: TextFormField(
+                                      textAlign: TextAlign.left,
+                                      decoration: InputDecoration(
+                                        enabledBorder: new UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.blueAccent,
+                                              width: 0.8,
+                                              style: BorderStyle.solid),
+                                        ),
+                                      ),
+                                      initialValue: price,
+                                      validator: (val) =>
+                                      val.isEmpty ? 'Enter a price' : null,
+                                      onChanged: (val) {
+                                        price = val;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            new Row(
+                              children: <Widget>[
+                                new Expanded(
+                                  child: new Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 40.0, top: 25.0),
+                                    child: new Text(
+                                      "Location",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blueAccent,
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            new Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.only(
+                                  left: 40.0, right: 40.0),
+                              alignment: Alignment.center,
+                              padding:
+                              const EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: new Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  new Expanded(
+                                    child: TextFormField(
+                                      textAlign: TextAlign.left,
+                                      decoration: InputDecoration(
+                                        enabledBorder: new UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.blueAccent,
+                                              width: 0.8,
+                                              style: BorderStyle.solid),
+                                        ),
+                                      ),
+                                      initialValue: location,
+                                      validator: (val) =>
+                                      val.isEmpty ? 'Enter a location' : null,
+                                      onChanged: (val) {
+                                        location = val;
                                       },
                                     ),
                                   ),
@@ -364,9 +492,9 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                                   (transaction) async {
                                                 await transaction.set(
                                                     Firestore.instance
-                                                        .collection("boats").document(uid),
+                                                        .collection("boats").document(boat.documentID.toString()),
                                                     {
-                                                      'image': 'https://firebasestorage.googleapis.com/v0/b/boatelthemobilecompany.appspot.com/o/image_picker_D8E5D13F-6CB3-41E4-A93D-A02F7C083003-13283-00005F63B17FCA7E.jpg?alt=media&token=3e971881-7803-493e-8c1f-724c264077cb',
+                                                      'image': image,
                                                       'userId': uid,
                                                       'title': title,
                                                       'description': description,
@@ -376,8 +504,8 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                                       'location': location
                                                     });
                                               });
-//                                          Navigator.pushNamed(
-//                                              context, HomePage.pageId);
+                                          Navigator.pushNamed(
+                                              context, MyAdvertisements.pageId);
                                         }
                                       },
                                       child: new Container(
@@ -416,54 +544,6 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
               );
             }
           }),
-      bottomNavigationBar: new Container(
-        color: Colors.blue,
-        child: new MaterialButton(
-          onPressed: () {
-            showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    height: 200,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text('Contact ' + _ownerName + ':'),
-                          RaisedButton(
-                            child: const Text('Email'),
-                            onPressed: () => customLaunch(
-                                'mailto:$_ownerEmail?subject=Help&body=I%20need%20help!'),
-                          ),
-                          RaisedButton(
-                            child: const Text('SMS'),
-                            onPressed: () =>
-                                customLaunch('sms:$_ownerPhoneNumber'),
-                          ),
-                          RaisedButton(
-                            child: const Text('Call'),
-                            onPressed: () =>
-                                customLaunch('tel:$_ownerPhoneNumber'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-          },
-          child: new Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: new Text("Contact the boat owner",
-                style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w600)),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
+import 'package:hello_rectangle/screens/home/home.dart';
 import 'package:hello_rectangle/screens/profile/ProfileInfo.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,15 +18,15 @@ import 'my_boat_overview_page.dart';
 
 class MyAdvertisements extends StatefulWidget {
   //MANDATORY VARIABLE IN EVERY PAGE FOR ROUTING PURPOSES
-  static String pageId = 'profileInfoPage';
+  static String pageId = 'myAdvertisementsPage';
+
   @override
   _MyAdvertisements createState() => _MyAdvertisements();
 }
 
 class _MyAdvertisements extends State<MyAdvertisements> {
-  static String pageId = 'myAdvertisementsPage';
-  final AuthService _auth = AuthService();
-  final FirebaseAuth __auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   String _uid = '';
 
@@ -33,12 +34,11 @@ class _MyAdvertisements extends State<MyAdvertisements> {
 
 
   getCurrentUser() async {
-    final FirebaseUser user = await __auth.currentUser();
+    final FirebaseUser user = await _auth.currentUser();
     firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
 
     _uid = user.uid;
 
-    log('My user id ' + _uid);
     firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
   }
 
@@ -52,8 +52,78 @@ class _MyAdvertisements extends State<MyAdvertisements> {
   Widget build(BuildContext context,) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Boat2Me'),
+        title: Text('My Advertisements'),
         elevation: 0.0,
+      ),
+      drawer: Drawer(
+        elevation: 5.0,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Boat2Me',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            //THIS IS THE SIDE MENU BAR
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.home,
+                size: 40.0,
+              ),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pushNamed(context, HomePage.pageId);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.ship,
+                size: 35.0,
+              ),
+              title: Text('My Advertisements'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.userCircle,
+                size: 40.0,
+              ),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pushNamed(context, ProfileInfo.pageId);
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            ListTile(
+              leading: Icon(
+                FontAwesomeIcons.signOutAlt,
+                size: 40.0,
+              ),
+              title: Text('Sign out'),
+              onTap: () async {
+                await _auth.signOut();
+              },
+            ),
+          ],
+        ),
       ),
       //USE STREAMBUILDER TO CREATE THE LIST OF BOATS
       body: StreamBuilder(
@@ -76,22 +146,6 @@ class _MyAdvertisements extends State<MyAdvertisements> {
             );
           }
         },
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0),
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, BoatListing.pageId);
-          },
-          label: Text(
-            'List Boat',
-            style: kFloatingButtonTextStyle,
-          ),
-          icon: Icon(
-            FontAwesomeIcons.plusCircle,
-            size: 25.0,
-          ),
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
