@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_rectangle/services/database.dart';
+import 'package:hello_rectangle/shared/loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Models/boat_model_list.dart';
 
@@ -30,12 +32,12 @@ getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
         return new Text(userDocument['firstName']);
       });
   DocumentReference documentReference =
-  Firestore.instance.collection('users').document();
+      Firestore.instance.collection('users').document();
   print(documentReference.documentID);
   await Firestore.instance
       .collection('users')
       .where(documentReference.documentID,
-      isEqualTo: snapshot.data.documents[widget.boatIndex]['userId'])
+          isEqualTo: snapshot.data.documents[widget.boatIndex]['userId'])
       .getDocuments()
       .then((val) {
     if (val.documents.length > 0) {
@@ -46,12 +48,22 @@ getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
   });
 }
 
+void customLaunch(command) async {
+  if (await canLaunch(command)) {
+    await launch(command);
+  } else {
+    print('Could not launch $command');
+  }
+}
+
 class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
+  String _ownerName = '';
+  String _ownerEmail = '';
+  String _ownerPhoneNumber = '';
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: StreamBuilder(
         stream: Firestore.instance.collection('boats').snapshots(),
@@ -71,39 +83,36 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
 
                 flexibleSpace: FlexibleSpaceBar(
                     background: Container(
-                      child: Stack(
-                        children: <Widget>[
-                          Image.network(
-                            snapshot.data.documents[widget.boatIndex]['image'],
-                            fit: BoxFit.cover,
-                            width: 1000.0,
-                            height: 500.0,
-                          ),
-                          Positioned(
-                            child: Icon(
-                              Icons.share,
-                              color: Colors.white,
-                            ),
-                            top: size.height / 5,
-                            left: size.width - 40.0,
-                          ),
-                          Positioned(
-                            child: Icon(
-                              Icons.comment,
-                              color: Colors.white,
-                            ),
-                            top: size.height / 4,
-                            left: size.width - 40.0,
-                          ),
-                        ],
+                  child: Stack(
+                    children: <Widget>[
+                      Image.network(
+                        snapshot.data.documents[widget.boatIndex]['image'],
+                        fit: BoxFit.cover,
+                        width: 1000.0,
+                        height: 500.0,
                       ),
-                    )),
+                      Positioned(
+                        child: Icon(
+                          Icons.share,
+                          color: Colors.white,
+                        ),
+                        top: size.height / 5,
+                        left: size.width - 40.0,
+                      ),
+                      Positioned(
+                        child: Icon(
+                          Icons.comment,
+                          color: Colors.white,
+                        ),
+                        top: size.height / 4,
+                        left: size.width - 40.0,
+                      ),
+                    ],
+                  ),
+                )),
 
                 // Extruding edge from the sliver appbar, may need to fix expanded height
-                expandedHeight: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 2.71,
+                expandedHeight: MediaQuery.of(context).size.height / 2.71,
               ),
               SliverToBoxAdapter(
                 child: Container(
@@ -111,7 +120,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                   child: Text(
                     snapshot.data.documents[widget.boatIndex]['title'],
                     style:
-                    TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -127,13 +136,12 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                             child: StreamBuilder(
                                 stream: Firestore.instance
                                     .collection('users')
-                                    .document(snapshot
-                                    .data.documents[
-                                widget.boatIndex]['userId'])
+                                    .document(snapshot.data
+                                        .documents[widget.boatIndex]['userId'])
                                     .snapshots(),
                                 builder: (context, snapshot) {
                                   if (!snapshot.hasData) {
-                                    return new Text("Loading");
+                                    return Loading();
                                   }
                                   var userDocument = snapshot.data;
                                   return new CircleAvatar(
@@ -152,9 +160,9 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                 children: <Widget>[
                                   Text(
                                     snapshot.data.documents[widget.boatIndex]
-                                    ['location'],
+                                        ['location'],
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3.0),
@@ -163,20 +171,28 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                                         Text(
                                           "Owned by ",
                                           style:
-                                          TextStyle(color: Colors.black54),
+                                              TextStyle(color: Colors.black54),
                                         ),
                                         StreamBuilder(
                                             stream: Firestore.instance
                                                 .collection('users')
                                                 .document(snapshot
-                                                .data.documents[
-                                            widget.boatIndex]['userId'])
+                                                        .data.documents[
+                                                    widget.boatIndex]['userId'])
                                                 .snapshots(),
                                             builder: (context, snapshot) {
                                               if (!snapshot.hasData) {
-                                                return new Text("Loading");
+                                                return Loading();
                                               }
                                               var userDocument = snapshot.data;
+                                              _ownerName =
+                                                  userDocument['firstName'] +
+                                                      ' ' +
+                                                      userDocument['lastName'];
+                                              _ownerEmail =
+                                                  userDocument['email'];
+                                              _ownerPhoneNumber =
+                                                  userDocument['phoneNumber'];
                                               return new Text(
                                                   userDocument['firstName'] +
                                                       ' ' +
@@ -211,7 +227,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                       ),
                       Text(
                         snapshot.data.documents[widget.boatIndex]
-                        ['description'],
+                            ['description'],
                         style: TextStyle(color: Colors.grey, fontSize: 15.0),
                       ),
                       Padding(
@@ -221,22 +237,18 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Row(
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.euroSign,
-                              size: 13.0,
-                              color: Colors.blueGrey,
-                            ),
-                            Text(
-                              snapshot.data.documents[widget
-                                  .boatIndex]['price'],
-                              style:
-                              TextStyle(
-                                  color: Colors.blueAccent, fontSize: 15.0),
-                            ),
-                          ]
-                      ),
+                      Row(children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.euroSign,
+                          size: 13.0,
+                          color: Colors.blueGrey,
+                        ),
+                        Text(
+                          snapshot.data.documents[widget.boatIndex]['price'],
+                          style: TextStyle(
+                              color: Colors.blueAccent, fontSize: 15.0),
+                        ),
+                      ]),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
                         child: Text(
@@ -245,9 +257,10 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         ),
                       ),
                       Text(
-                        snapshot.data.documents[widget.boatIndex]['duration'] + ' minutes',
+                        snapshot.data.documents[widget.boatIndex]['duration'] +
+                            ' minutes',
                         style:
-                        TextStyle(color: Colors.blueAccent, fontSize: 15.0),
+                            TextStyle(color: Colors.blueAccent, fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -261,7 +274,38 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
         color: Colors.blue,
         child: new MaterialButton(
           onPressed: () {
-            //  saveMoist();
+            showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 200,
+                    color: Colors.blue,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text('Contact ' + _ownerName + ':'),
+                          RaisedButton(
+                            child: const Text('Email'),
+                            onPressed: () => customLaunch(
+                                'mailto:$_ownerEmail?subject=Help&body=I%20need%20help!'),
+                          ),
+                          RaisedButton(
+                            child: const Text('SMS'),
+                            onPressed: () =>
+                                customLaunch('sms:$_ownerPhoneNumber'),
+                          ),
+                          RaisedButton(
+                            child: const Text('Call'),
+                            onPressed: () =>
+                                customLaunch('tel:$_ownerPhoneNumber'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
           },
           child: new Padding(
             padding: const EdgeInsets.all(24.0),
