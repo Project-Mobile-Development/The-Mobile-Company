@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           ProfileInfo.pageId: (context) => ProfileInfo(),
           BoatListing.pageId: (context) => BoatListing(),
           BoatOverviewScreen.pageId: (context) => BoatOverviewScreen(),
+          MyAdvertisements.pageId: (context) => MyAdvertisements()
           //HomeScreenOLD.pageId: (context) => HomeScreenOLD(),
         },
       ),

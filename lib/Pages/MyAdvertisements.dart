@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
 import 'package:hello_rectangle/screens/profile/ProfileInfo.dart';
@@ -9,8 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 
-class HomePage extends StatelessWidget {
-  static String pageId = 'homePage';
+class MyAdvertisements extends StatelessWidget {
+  static String pageId = 'myAdvertisementsPage';
   final AuthService _auth = AuthService();
 
   @override
@@ -21,64 +22,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Boat2Me'),
         elevation: 0.0,
-      ),
-      drawer: Drawer(
-        elevation: 5.0,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Boat2Me',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            //THIS IS THE SIDE MENU BAR
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.userCircle,
-                size: 40.0,
-              ),
-              title: Text('Profile'),
-              onTap: () {
-                Navigator.pushNamed(context, ProfileInfo.pageId);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.ship,
-                size: 35.0,
-              ),
-              title: Text('My Advertisements'),
-              onTap: () {
-                Navigator.pushNamed(context, MyAdvertisements.pageId);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.signOutAlt,
-                size: 40.0,
-              ),
-              title: Text('Sign out'),
-              onTap: () async {
-                await _auth.signOut();
-              },
-            ),
-          ],
-        ),
       ),
       //USE STREAMBUILDER TO CREATE THE LIST OF BOATS
       body: StreamBuilder(
