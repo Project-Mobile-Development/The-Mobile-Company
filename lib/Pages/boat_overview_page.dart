@@ -16,7 +16,6 @@ class BoatOverviewScreen extends StatefulWidget {
 }
 
 getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
-  print(snapshot.data.documents[widget.boatIndex]['userId']);
   return new StreamBuilder(
       stream: Firestore.instance
           .collection('users')
