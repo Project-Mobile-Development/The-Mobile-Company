@@ -190,22 +190,6 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.location_on,
-                                  color: Color(0xFF1976D2),
-                                ),
-                                Text(
-                                  snapshot.data.documents[widget.boatIndex]
-                                  ['location'],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ],
