@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hello_rectangle/services/database.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../Models/boat_model_list.dart';
+import 'package:hello_rectangle/shared/constants.dart';
 
 class BoatOverviewScreen extends StatefulWidget {
   static String pageId = 'boatOverviewScreen';
@@ -25,27 +23,12 @@ getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return new Text("Loading");
+          return Loading();
         }
         var userDocument = snapshot.data;
         print('test: ' + userDocument.toString());
         return new Text(userDocument['firstName']);
       });
-  DocumentReference documentReference =
-      Firestore.instance.collection('users').document();
-  print(documentReference.documentID);
-  await Firestore.instance
-      .collection('users')
-      .where(documentReference.documentID,
-          isEqualTo: snapshot.data.documents[widget.boatIndex]['userId'])
-      .getDocuments()
-      .then((val) {
-    if (val.documents.length > 0) {
-      print(val.documents[0].data["firstName"]);
-    } else {
-      print("Not Found");
-    }
-  });
 }
 
 void customLaunch(command) async {
@@ -68,7 +51,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
       body: StreamBuilder(
         stream: Firestore.instance.collection('boats').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text('Loading data.. Please Wait..');
+          if (!snapshot.hasData) return Loading();
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -279,27 +262,87 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                 builder: (BuildContext context) {
                   return Container(
                     height: 200,
-                    color: Colors.blue,
+                    color: Colors.white,
                     child: Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text('Contact ' + _ownerName + ':'),
-                          RaisedButton(
-                            child: const Text('Email'),
-                            onPressed: () => customLaunch(
-                                'mailto:$_ownerEmail?subject=Help&body=I%20need%20help!'),
+                          Text(
+                            'Contact ' + _ownerName.toUpperCase(),
+                            style: kBoatCardImportantTextStyle.copyWith(
+                                color: Colors.blue),
                           ),
-                          RaisedButton(
-                            child: const Text('SMS'),
-                            onPressed: () =>
-                                customLaunch('sms:$_ownerPhoneNumber'),
+                          SizedBox(
+                            height: 20.0,
                           ),
-                          RaisedButton(
-                            child: const Text('Call'),
-                            onPressed: () =>
-                                customLaunch('tel:$_ownerPhoneNumber'),
+                          ButtonBar(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              RaisedButton.icon(
+                                onPressed: () => customLaunch(
+                                    'mailto:$_ownerEmail?subject=Help&body=I%20need%20help!'),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                label: Text(
+                                  'Email',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                icon: Icon(
+                                  FontAwesomeIcons.envelope,
+                                  color: Colors.white,
+                                ),
+                                textColor: Colors.white,
+                                splashColor: Colors.red,
+                                color: Colors.lightBlue,
+                              ),
+                              RaisedButton.icon(
+                                onPressed: () =>
+                                    customLaunch('sms:$_ownerPhoneNumber'),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                label: Text(
+                                  'SMS',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                icon: Icon(
+                                  FontAwesomeIcons.sms,
+                                  color: Colors.white,
+                                ),
+                                textColor: Colors.white,
+                                splashColor: Colors.red,
+                                color: Colors.lightBlue,
+                              ),
+                              RaisedButton.icon(
+                                onPressed: () =>
+                                    customLaunch('tel:$_ownerPhoneNumber'),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                label: Text(
+                                  'Call',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                icon: Icon(
+                                  FontAwesomeIcons.phoneAlt,
+                                  color: Colors.white,
+                                ),
+                                textColor: Colors.white,
+                                splashColor: Colors.red,
+                                color: Colors.lightBlue,
+                              ),
+                            ],
                           ),
                         ],
                       ),
