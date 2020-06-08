@@ -26,28 +26,19 @@ class _BoatListingState extends State<BoatListing> {
   final _formKey = GlobalKey<FormState>();
 
   Future<File> imageFile;
-
   File _image;
 
-  //THINK THEY SHOULD BE ALL PRIVATE VARIABLES (add _ at the start)
   String title = '';
   String description = '';
 
   String _uid = '';
 
-  //POST MINUTES
   String startingTime = '';
   String duration = '';
-
-  //PROBABLY BETTER TO SAVE IT AS A STRING
   String boatCapacity = '';
-
-  //PROBABLY BETTER TO SAVE IT AS A FLOAT WITH ONE DECIMAL NUMBER
+  String boatImage = '';
   String price = '';
-
-  //MAYBE CHANGE IT IN THE FUTURE TO USE GEODATA (NOT YET THO) - Google API
   String location = '';
-
   String _url = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -65,13 +56,14 @@ class _BoatListingState extends State<BoatListing> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
-      //print('Image Path $_image');
+      uploadPic();
     });
   }
 
   Future uploadPic() async {
     //TO MAKE IT MORE READABLE
-    String fileName = basename(_image.path);
+    String fileName = basename(_image.path) + ".jpg";
+
     //GETTING THE FILE REFERENCE
     StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);
@@ -82,10 +74,7 @@ class _BoatListingState extends State<BoatListing> {
 
     String url = (await firebaseStorageRef.getDownloadURL()).toString();
 
-    setState(() {
-      _url = url;
-      //print('Image Path $_image');
-    });
+    boatImage = url;
   }
 
   Widget showImage() {
@@ -112,7 +101,7 @@ class _BoatListingState extends State<BoatListing> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Profile Info'),
+        title: Text('Boat Listing'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -125,6 +114,10 @@ class _BoatListingState extends State<BoatListing> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Divider(
+                      height: 60.0,
+                      color: Colors.white,
+                    ),
                     Center(
                         child: Padding(
                       padding: EdgeInsets.only(top: 15.0),
@@ -132,126 +125,410 @@ class _BoatListingState extends State<BoatListing> {
                         onTap: () {
                           getImage();
                         },
-                        child: Container(
-                            width: 140.0,
-                            height: 140.0,
-                            decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: new Border.all(
-                                  color: Colors.blue,
-                                  width: 2.0,
-                                  style: BorderStyle.solid),
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundColor: Colors.blue,
+                          child: ClipOval(
+                            child: SizedBox(
+                              width: 200.0,
+                              height: 200.0,
+                              child: (() {
+                                if (_image != null) {
+                                  return Image.file(_image, fit: BoxFit.cover);
+                                } else if (boatImage != null &&
+                                    boatImage != "") {
+                                  return Image.network(
+                                    boatImage,
+                                    fit: BoxFit.cover,
+                                  );
+                                } else if (_image != null) {
+                                  return Image.file(_image, fit: BoxFit.fill);
+                                } else {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Select Image',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }()),
                             ),
-                            child: showImage()),
+                          ),
+                        ),
                       ),
                     )),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Title*'),
-                      validator: (val) => val.isEmpty ? 'Enter a title' : null,
-                      onChanged: (val) {
-                        setState(() => title = val);
-                      },
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Title",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: kTextInputDecoration.copyWith(
-                          hintText: 'Description*'),
-                      validator: (val) =>
-                          val.isEmpty ? 'Enter a description' : null,
-                      onChanged: (val) {
-                        setState(() => description = val);
-                      },
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) =>
+                                  val.isEmpty ? 'Enter title' : null,
+                              onChanged: (val) {
+                                title = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: kTextInputDecoration.copyWith(
-                          hintText: 'Duration in minutes*'),
-                      validator: (val) => val.isEmpty
-                          ? 'Enter a duration of the boat tour'
-                          : null,
-                      onChanged: (val) {
-                        setState(() => duration = val);
-                      },
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Description",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: kTextInputDecoration.copyWith(
-                          hintText: 'Boat Capacity*'),
-                      validator: (val) => val.isEmpty
-                          ? 'Enter a maximum capacity for the boat tour'
-                          : null,
-                      onChanged: (val) {
-                        setState(() => boatCapacity = val);
-                      },
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) =>
+                                  val.isEmpty ? 'Enter description' : null,
+                              onChanged: (val) {
+                                description = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Price per hour*'),
-                      validator: (val) => val.isEmpty
-                          ? 'Enter a price for the boat tour'
-                          : null,
-                      onChanged: (val) {
-                        setState(() => price = val);
-                      },
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Duration",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration:
-                          kTextInputDecoration.copyWith(hintText: 'Location*'),
-                      validator: (val) => val.isEmpty
-                          ? 'Enter a starting location for your boat tour'
-                          : null,
-                      onChanged: (val) {
-                        setState(() => location = val);
-                      },
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) => val.isEmpty
+                                  ? 'Enter duration of the boat tour'
+                                  : null,
+                              onChanged: (val) {
+                                duration = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Boat Capacity",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) => val.isEmpty
+                                  ? 'Enter a maximum capacity for the boat tour'
+                                  : null,
+                              onChanged: (val) {
+                                boatCapacity = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Price per hour",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) => val.isEmpty
+                                  ? 'Enter a price for the boat tour'
+                                  : null,
+                              onChanged: (val) {
+                                price = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 60.0, color: Colors.white),
+                    new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          child: new Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: new Text(
+                              "Location",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueAccent,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(left: 40.0, right: 40.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: TextFormField(
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                enabledBorder: new UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blueAccent,
+                                      width: 0.8,
+                                      style: BorderStyle.solid),
+                                ),
+                              ),
+                              validator: (val) => val.isEmpty
+                                  ? 'Enter a starting location for your boat tour'
+                                  : null,
+                              onChanged: (val) {
+                                location = val;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 24.0, color: Colors.white),
+                    new Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.only(
+                          left: 30.0, right: 30.0, top: 50.0),
+                      alignment: Alignment.center,
+                      child: new Row(
+                        children: <Widget>[
+                          new Expanded(
+                            child: new FlatButton(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              color: Colors.blueAccent,
+                              onPressed: () async {
+                                final FirebaseUser user =
+                                    await _auth.currentUser();
+                                final uid = user.uid;
+                                if (_formKey.currentState.validate()) {
+                                  if (boatImage != '') {
+                                    Firestore.instance
+                                        .runTransaction((transaction) async {
+                                      await transaction.set(
+                                          Firestore.instance
+                                              .collection("boats")
+                                              .document(),
+                                          {
+                                            'userId': uid,
+                                            'image': boatImage,
+                                            'title': title,
+                                            'description': description,
+                                            'duration': duration,
+                                            'boatCapacity': boatCapacity,
+                                            'price': price,
+                                            'location': location
+                                          });
+                                    });
+                                  }
+                                  Navigator.pushNamed(context, HomePage.pageId);
+                                }
+                              },
+                              child: new Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0,
+                                  horizontal: 20.0,
+                                ),
+                                child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new Expanded(
+                                      child: Text(
+                                        "List Boat",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 60.0, color: Colors.white),
                   ],
                 ),
               ),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.blue,
-        child: MaterialButton(
-          onPressed: () async {
-            final FirebaseUser user = await _auth.currentUser();
-            final uid = user.uid;
-            print(uid);
-            if (_formKey.currentState.validate()) {
-              if (_url != '') {
-                Firestore.instance.runTransaction((transaction) async {
-                  await transaction
-                      .set(Firestore.instance.collection("boats").document(), {
-                    'userId': uid,
-                    'image': _url,
-                    'title': title,
-                    'description': description,
-                    'duration': duration,
-                    'boatCapacity': boatCapacity,
-                    'price': price,
-                    'location': location
-                  });
-                });
-              }
-              Navigator.pushNamed(context, HomePage.pageId);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Text("List boat",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600)),
-          ),
         ),
       ),
     );
