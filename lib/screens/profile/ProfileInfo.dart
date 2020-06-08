@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hello_rectangle/shared/loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
-import 'package:hello_rectangle/shared/loading.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 
@@ -19,7 +19,6 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfoState extends State<ProfileInfo> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //FirebaseUser user;
 
   File _image;
   Future<File> imageFile;
@@ -35,12 +34,16 @@ class _ProfileInfoState extends State<ProfileInfo> {
   String tempProfileImage;
   String error = '';
 
+  Stream<DocumentSnapshot> testing;
+
   getCurrentUser() async {
     final FirebaseUser user = await _auth.currentUser();
 
     setState(() {
       _uid = user.uid;
     });
+
+    testing = Firestore.instance.collection('users').document(_uid).snapshots();
   }
 
   Future getImage() async {
@@ -70,6 +73,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
 
   @override
   void initState() {
+    super.initState();
     getCurrentUser();
   }
 
@@ -86,18 +90,26 @@ class _ProfileInfoState extends State<ProfileInfo> {
         title: Text('Profile Info'),
       ),
       body: StreamBuilder(
-          stream:
-              Firestore.instance.collection('users').document(_uid).snapshots(),
+          stream: testing,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Loading();
             } else {
               var user = snapshot.data;
-              firstName = user['firstName'];
-              lastName = user['lastName'];
-              phoneNumber = user['phoneNumber'];
-              email = user['email'];
-              tempProfileImage = user['tempProfileImage'];
+              if (user['firstName'] == "" || user['firstname'] == '') {
+                firstName = " ";
+                lastName = " ";
+                phoneNumber = " ";
+                email = " ";
+                tempProfileImage = " ";
+              } else {
+                firstName = user['firstName'];
+                lastName = user['lastName'];
+                phoneNumber = user['phoneNumber'];
+                email = user['email'];
+                tempProfileImage = user['tempProfileImage'];
+              }
+
               return SingleChildScrollView(
                 child: Form(
                   key: _formKey,

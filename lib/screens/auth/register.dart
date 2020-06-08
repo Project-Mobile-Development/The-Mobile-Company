@@ -49,8 +49,8 @@ class _RegisterState extends State<Register> {
                           colorFilter: new ColorFilter.mode(
                               Colors.black.withOpacity(0.05),
                               BlendMode.dstATop),
-                          image: AssetImage(
-                              'assets/images/login-signup-background.jpg'),
+                          image: NetworkImage(
+                              'https://firebasestorage.googleapis.com/v0/b/boatelthemobilecompany.appspot.com/o/personal-user-illustration-%402x.png?alt=media&token=70a70e8d-1f47-403a-924d-dffa9a246f5b'),
                           fit: BoxFit.cover,
                         ),
                       ),
