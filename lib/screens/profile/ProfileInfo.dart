@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hello_rectangle/services/auth.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
@@ -19,6 +20,8 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfoState extends State<ProfileInfo> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthService __auth = AuthService();
+
 
   File _image;
   Future<File> imageFile;
@@ -32,9 +35,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
   String phoneNumber = '';
   String email = '';
   String tempProfileImage;
+  String password = '';
+
   String error = '';
 
-  Stream<DocumentSnapshot> testing;
+  Stream<DocumentSnapshot> firestoreInstance;
 
   getCurrentUser() async {
     final FirebaseUser user = await _auth.currentUser();
@@ -43,7 +48,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
       _uid = user.uid;
     });
 
-    testing = Firestore.instance.collection('users').document(_uid).snapshots();
+    firestoreInstance = Firestore.instance.collection('users').document(_uid).snapshots();
   }
 
   Future getImage() async {
@@ -90,7 +95,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
         title: Text('Profile Info'),
       ),
       body: StreamBuilder(
-          stream: testing,
+          stream: firestoreInstance,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Loading();
@@ -102,12 +107,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 phoneNumber = " ";
                 email = " ";
                 tempProfileImage = " ";
+                password = " ";
               } else {
                 firstName = user['firstName'];
                 lastName = user['lastName'];
                 phoneNumber = user['phoneNumber'];
                 email = user['email'];
                 tempProfileImage = user['tempProfileImage'];
+                password = user['password'];
               }
 
               return SingleChildScrollView(
@@ -406,6 +413,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                                   'phoneNumber': phoneNumber,
                                                   'tempProfileImage':
                                                       tempProfileImage,
+                                                  'password': password
                                                 });
                                           });
                                           Navigator.pushNamed(
