@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:hello_rectangle/shared/constants.dart';
+
+import 'my_boat_overview_page.dart';
 
 class BoatOverviewScreen extends StatefulWidget {
   static String pageId = 'boatOverviewScreen';
@@ -31,18 +34,34 @@ getUser(AsyncSnapshot snapshot, BoatOverviewScreen widget) async {
       });
 }
 
-void customLaunch(command) async {
-  if (await canLaunch(command)) {
-    await launch(command);
-  } else {
-    print('Could not launch $command');
-  }
-}
-
 class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
   String _ownerName = '';
   String _ownerEmail = '';
   String _ownerPhoneNumber = '';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var _favourites;
+
+  String _uid = '';
+
+  Stream<DocumentSnapshot> firestoreInstance;
+
+  getCurrentUser() async {
+    final FirebaseUser user = await _auth.currentUser();
+
+    setState(() {
+      _uid = user.uid;
+    });
+
+    firestoreInstance =
+        Firestore.instance.collection('users').document(_uid).snapshots();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +71,7 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
         stream: Firestore.instance.collection('boats').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Loading();
+          var boat = snapshot.data.documents[widget.boatIndex];
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -84,10 +104,56 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
               SliverToBoxAdapter(
                 child: Container(
                   padding: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 15.0),
-                  child: Text(
-                    snapshot.data.documents[widget.boatIndex]['title'],
-                    style:
-                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        snapshot.data.documents[widget.boatIndex]['title'],
+                        style: TextStyle(
+                            fontSize: 24.0, fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          StreamBuilder(
+                              stream: firestoreInstance,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Loading();
+                                }
+                                var userDocument = snapshot.data;
+                                _favourites = userDocument['favouriteBoatID'];
+
+                                return new IconButton(
+                                  onPressed: () async {
+                                    final snackBar = SnackBar(content: Text('You have already defined a favourite :('));
+
+                                    if (_favourites != null) {
+                                      return Scaffold.of(context).showSnackBar(snackBar);
+                                    } else {
+                                      return Firestore.instance
+                                          .runTransaction((transaction) async {
+                                        Firestore.instance
+                                            .collection("users")
+                                            .document(_uid)
+                                            .updateData(
+                                          {
+                                            'favouriteBoatID': boat.documentID.toString()
+                                          },
+                                        );
+                                      });
+                                    }
+                                  },
+                                  icon: Icon(
+                                    FontAwesomeIcons.heart,
+                                    color: Colors.grey,
+                                  ),
+                                  splashColor: Colors.red,
+                                  color: Colors.lightBlue,
+                                );
+                              }),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
