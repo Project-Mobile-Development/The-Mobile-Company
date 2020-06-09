@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
                               Colors.black.withOpacity(0.05),
                               BlendMode.dstATop),
                           image: NetworkImage(
-                              'https://firebasestorage.googleapis.com/v0/b/boat2me-1232a.appspot.com/o/personal-user-illustration-%402x.png?alt=media&token=0e972675-1d93-4b7d-aed4-e85689d47398'),
+                              'https://firebasestorage.googleapis.com/v0/b/boat2me-the-mobile-company.appspot.com/o/personal-user-illustration-%402x.png?alt=media&token=b431a706-c8e6-4f5d-ab6f-25581e79c103'),
                           fit: BoxFit.cover,
                         ),
                       ),

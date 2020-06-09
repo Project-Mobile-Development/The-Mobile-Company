@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>495494030550-vp7o7qpablk3rrevc46dckaiafgdkelj.apps.googleusercontent.com</string>
+	<string>1092316699809-jhnhtgefj5ima00ct10ft3r8egcaf3o1.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.495494030550-vp7o7qpablk3rrevc46dckaiafgdkelj</string>
+	<string>com.googleusercontent.apps.1092316699809-jhnhtgefj5ima00ct10ft3r8egcaf3o1</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC_5RLyiKLi8AdYJ-x_bo9fKRKmJQRgbS0</string>
+	<string>AIzaSyC6afvl9iH6JXtmht40XzqgGyB-_g2gqog</string>
 	<key>GCM_SENDER_ID</key>
-	<string>495494030550</string>
+	<string>1092316699809</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.boatel.themobilecompany</string>
 	<key>PROJECT_ID</key>
-	<string>boat2me-1232a</string>
+	<string>boat2me-the-mobile-company</string>
 	<key>STORAGE_BUCKET</key>
-	<string>boat2me-1232a.appspot.com</string>
+	<string>boat2me-the-mobile-company.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:495494030550:ios:dcdffe3fc76dd42f751577</string>
+	<string>1:1092316699809:ios:7dd1c69b209eab783164e0</string>
 	<key>DATABASE_URL</key>
-	<string>https://boat2me-1232a.firebaseio.com</string>
+	<string>https://boat2me-the-mobile-company.firebaseio.com</string>
 </dict>
 </plist>
