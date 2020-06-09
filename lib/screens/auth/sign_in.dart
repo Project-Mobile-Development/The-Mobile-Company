@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/screens/auth/register.dart';
@@ -18,6 +19,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
   // text field state
@@ -25,6 +27,11 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
   bool loading = false;
+
+  @override
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +171,7 @@ class _SignInState extends State<SignIn> {
                             ),
                           ),
                           Divider(
-                            height: 15.0,
+                            height: 24.0,
                           ),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -173,7 +180,7 @@ class _SignInState extends State<SignIn> {
                                 padding: const EdgeInsets.only(right: 20.0),
                                 child: new FlatButton(
                                   child: new Text(
-                                    "Don't have an account? Sign up now",
+                                    "Forgot Password?",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.blueAccent,
@@ -181,7 +188,7 @@ class _SignInState extends State<SignIn> {
                                     ),
                                     textAlign: TextAlign.end,
                                   ),
-                                  onPressed: () => {widget.toggleView()},
+                                  onPressed: () => {resetPassword(email)},
                                 ),
                               ),
                             ],
@@ -241,6 +248,27 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ],
                             ),
+                          ),
+                          Divider(height: 15.0, color: Colors.white),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 0.0),
+                                child: new FlatButton(
+                                  child: new Text(
+                                    "Don't have an account? Sign up now",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      fontSize: 15.0,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  onPressed: () => {widget.toggleView()},
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
