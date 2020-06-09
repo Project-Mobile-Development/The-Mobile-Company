@@ -5,6 +5,7 @@ import 'package:hello_rectangle/screens/auth/register.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
+import 'package:hello_rectangle/Pages/reset_password_page.dart';
 import 'package:hello_rectangle/Widgets/RoundedButton.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -188,7 +189,10 @@ class _SignInState extends State<SignIn> {
                                     ),
                                     textAlign: TextAlign.end,
                                   ),
-                                  onPressed: () => {resetPassword(email)},
+                                  onPressed: () => {
+                                    Navigator.pushNamed(
+                                        context, ResetPassword.pageId)
+                                  },
                                 ),
                               ),
                             ],
