@@ -477,7 +477,6 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                                   'lastName': lastName,
                                                   'email': email,
                                                   'phoneNumber': phoneNumber,
-                                                  'password': password
                                                 });
                                           });
                                           Navigator.pushNamed(

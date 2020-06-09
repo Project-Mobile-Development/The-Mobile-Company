@@ -194,7 +194,6 @@ class _MyAdvertisements extends State<MyAdvertisements> {
                                       .size
                                       .width,
                                   height: 200.0,
-                                  //TODO: Replace with boat image
                                   child: Image.network(
                                     document['image'],
                                     fit: BoxFit.fill,

@@ -14,12 +14,11 @@ class DatabaseService {
   final CollectionReference boatCollection = Firestore.instance.collection('boats');
 
 
-  Future updateUserData(String firstName, String lastName, String email, String password, String phoneNumber, String tempProfileImage) async {
+  Future updateUserData(String firstName, String lastName, String email, String phoneNumber, String tempProfileImage) async {
     return await userCollection.document(uid).setData({
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'password': password,
       'phoneNumber': phoneNumber,
       'tempProfileImage': tempProfileImage,
 //      'profileImage': profileImage,
