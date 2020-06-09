@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "15162536833",
-    "firebase_url": "https://boatelthemobilecompany.firebaseio.com",
-    "project_id": "boatelthemobilecompany",
-    "storage_bucket": "boatelthemobilecompany.appspot.com"
+    "project_number": "495494030550",
+    "firebase_url": "https://boat2me-1232a.firebaseio.com",
+    "project_id": "boat2me-1232a",
+    "storage_bucket": "boat2me-1232a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:15162536833:android:9ad8f37c03b59377cd2e80",
+        "mobilesdk_app_id": "1:495494030550:android:ce1e360bc86cf834751577",
         "android_client_info": {
           "package_name": "com.boatel.themobilecompany"
         }
       },
       "oauth_client": [
         {
-          "client_id": "15162536833-4rt0q8cl6podqv594q8u9aeciqc980pp.apps.googleusercontent.com",
+          "client_id": "495494030550-tcr2qlrcj4jsmjcv6b0sidmkj1qcchdm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAd46yhmvyqdhuhUbLYY2l5wC-RAb5YSGw"
+          "current_key": "AIzaSyCirBZfv5gLEVrXwcAAswX6DdW_Mja0xUE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "15162536833-4rt0q8cl6podqv594q8u9aeciqc980pp.apps.googleusercontent.com",
+              "client_id": "495494030550-tcr2qlrcj4jsmjcv6b0sidmkj1qcchdm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
