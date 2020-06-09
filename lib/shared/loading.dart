@@ -4,14 +4,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: SpinKitChasingDots(
-          color: Colors.blue,
-          size: 50.0,
-        ),
-      ),
+    return MaterialApp(
+      home: Scaffold(
+          backgroundColor: Colors.blue,
+          body: Center(
+            child:
+                SpinKitWave(color: Colors.white, type: SpinKitWaveType.start),
+          )),
     );
   }
 }
