@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
@@ -9,9 +10,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  //MANDATORY VARIABLE IN EVERY PAGE FOR ROUTING PURPOSES
   static String pageId = 'homePage';
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final AuthService _auth = AuthService();
+  final FirebaseAuth _authUser = FirebaseAuth.instance;
+  final AuthService __auth = AuthService();
+
+  String _uid = '';
+  String profileImage;
+  String firstName = '';
+  String lastName = '';
+
+  Stream<DocumentSnapshot> firestoreInstance;
+
+  getCurrentUser() async {
+    final FirebaseUser user = await _authUser.currentUser();
+
+    setState(() {
+      _uid = user.uid;
+    });
+
+    firestoreInstance =
+        Firestore.instance.collection('users').document(_uid).snapshots();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
 
   @override
   Widget build(
@@ -23,92 +57,145 @@ class HomePage extends StatelessWidget {
         elevation: 0.0,
       ),
       drawer: Drawer(
-        elevation: 5.0,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Boat2Me',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+          elevation: 5.0,
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.only(right: 115.0),
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.white,
+                        child: ClipOval(
+                          child: SizedBox(
+                              width: 120.0,
+                              height: 120.0,
+                              child: (() {
+                                if (profileImage != null &&
+                                    profileImage != "") {
+                                  return Image.network(
+                                    profileImage,
+                                    fit: BoxFit.fill,
+                                  );
+                                } else {
+                                  return Image.network(
+                                    'https://picsum.photos/250?image=9',
+                                    fit: BoxFit.fill,
+                                  );
+                                }
+                              }())),
+                        ),
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.only(left: 38.0),
+                    child: Text(
+                      firstName + " " + lastName,
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    )), //TH
+                SizedBox(
+                  height: 60.0,
                 ),
-              ),
+                Padding(
+                    padding: const EdgeInsets.only(left: sidebarPadding),
+                    child: ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.home,
+                        color: Colors.blueAccent,
+                        size: 30.0,
+                      ),
+                      title: Text('Home'),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    )),
+                SizedBox(
+                  height: 25.0,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: sidebarPadding),
+                    child: ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.ship,
+                        color: Colors.blueAccent,
+                        size: 30.0,
+                      ),
+                      title: Text('My Advertisements'),
+                      onTap: () {
+                        Navigator.pushNamed(context, MyAdvertisements.pageId);
+                      },
+                    )),
+                SizedBox(
+                  height: 25.0,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: sidebarPadding),
+                    child: ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.userCircle,
+                        color: Colors.blueAccent,
+                        size: 30.0,
+                      ),
+                      title: Text('Profile'),
+                      onTap: () {
+                        Navigator.pushNamed(context, ProfileInfo.pageId);
+                      },
+                    )),
+                SizedBox(
+                  height: 25.0,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: sidebarPadding),
+                    child: ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.signOutAlt,
+                        color: Colors.blueAccent,
+                        size: 30.0,
+                      ),
+                      title: Text('Sign out'),
+                      onTap: () async {
+                        await _auth.signOut();
+                      },
+                    )),
+              ],
             ),
-            //THIS IS THE SIDE MENU BAR
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.home,
-                size: 40.0,
-              ),
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.ship,
-                size: 35.0,
-              ),
-              title: Text('My Advertisements'),
-              onTap: () {
-                Navigator.pushNamed(context, MyAdvertisements.pageId);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.userCircle,
-                size: 40.0,
-              ),
-              title: Text('Profile'),
-              onTap: () {
-                Navigator.pushNamed(context, ProfileInfo.pageId);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            ListTile(
-              leading: Icon(
-                FontAwesomeIcons.signOutAlt,
-                size: 40.0,
-              ),
-              title: Text('Sign out'),
-              onTap: () async {
-                await _auth.signOut();
-              },
-            ),
-          ],
-        ),
-      ),
+          )),
       //USE STREAMBUILDER TO CREATE THE LIST OF BOATS
       body: StreamBuilder(
         stream: Firestore.instance.collection('boats').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            //TODO: ADD BETTER STYLE TO THE SPINNER (SEE DOCUMENTATION ON THE DART PACKAGE)
-            return Loading();
-          } else {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) {
-                return _buildBoatList(
-                    context, snapshot.data.documents[index], index);
-              },
-            );
-          }
+          return StreamBuilder(
+            stream: firestoreInstance,
+            builder: (context, snapshot2) {
+              if (!snapshot.hasData) {
+                return Loading();
+              } else {
+                var user = snapshot2.data;
+                if (user == null) {
+                  profileImage = "";
+                } else {
+                  profileImage = user['tempProfileImage'];
+                  firstName = user['firstName'];
+                  lastName = user['lastName'];
+                }
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) {
+                    return _buildBoatList(
+                        context, snapshot.data.documents[index], index);
+                  },
+                );
+              }
+            },
+          );
         },
       ),
       floatingActionButton: Padding(
@@ -118,12 +205,12 @@ class HomePage extends StatelessWidget {
             Navigator.pushNamed(context, BoatListing.pageId);
           },
           label: Text(
-            'List Boat',
+            ' List Boat',
             style: kFloatingButtonTextStyle,
           ),
           icon: Icon(
-            FontAwesomeIcons.plusCircle,
-            size: 25.0,
+            FontAwesomeIcons.ship,
+            size: 20.0,
           ),
         ),
       ),
@@ -182,7 +269,7 @@ class HomePage extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      document['title'],
+                                      " " + document['title'],
                                       style: kBoatCardImportantTextStyle,
                                     ),
                                     Row(
@@ -197,7 +284,7 @@ class HomePage extends StatelessWidget {
                                         Icon(
                                           FontAwesomeIcons.mapMarkerAlt,
                                           size: 20.0,
-                                          color: Colors.blueGrey,
+                                          color: Colors.blueAccent,
                                         ),
                                       ],
                                     ),
@@ -215,11 +302,11 @@ class HomePage extends StatelessWidget {
                                         Icon(
                                           FontAwesomeIcons.euroSign,
                                           size: 20.0,
-                                          color: Colors.blueGrey,
+                                          color: Colors.blueAccent,
                                         ),
                                         Text(
                                           document['price'],
-                                          style: kBoatCardImportantTextStyle,
+                                          style: kBoatCardNonImportantTextStyle,
                                         ),
                                         Text(
                                           ' per hour',
@@ -243,7 +330,7 @@ class HomePage extends StatelessWidget {
                                         Icon(
                                           FontAwesomeIcons.stopwatch,
                                           size: 20.0,
-                                          color: Colors.blueGrey,
+                                          color: Colors.blueAccent,
                                         ),
                                       ],
                                     ),

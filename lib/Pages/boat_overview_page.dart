@@ -308,6 +308,9 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         style:
                         TextStyle(color: Colors.blueAccent, fontSize: 15.0),
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
                     ],
                   ),
                 ),
@@ -316,8 +319,9 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
           );
         },
       ),
-      bottomNavigationBar: new Container(
-        color: Colors.blue,
+      bottomNavigationBar:
+      new Container(
+        color: Colors.blueAccent,
         child: new MaterialButton(
           onPressed: () {
             showModalBottomSheet<void>(
