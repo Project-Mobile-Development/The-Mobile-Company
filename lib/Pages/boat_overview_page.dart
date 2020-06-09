@@ -229,6 +229,19 @@ class _BoatOverviewScreenState extends State<BoatOverviewScreen> {
                         style:
                             TextStyle(color: Colors.blueAccent, fontSize: 15.0),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
+                        child: Text(
+                          "Boat capacity",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(
+                        snapshot.data.documents[widget.boatIndex]['boatCapacity'] +
+                            ' persons',
+                        style:
+                        TextStyle(color: Colors.blueAccent, fontSize: 15.0),
+                      ),
                     ],
                   ),
                 ),
