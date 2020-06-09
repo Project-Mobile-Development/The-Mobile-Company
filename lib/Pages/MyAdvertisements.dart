@@ -9,6 +9,7 @@ import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
 import 'package:hello_rectangle/screens/profile/ProfileInfo.dart';
+import 'package:hello_rectangle/screens/wrapper.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_rectangle/shared/constants.dart';
@@ -27,19 +28,19 @@ class MyAdvertisements extends StatefulWidget {
 class _MyAdvertisements extends State<MyAdvertisements> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
   String _uid = '';
 
   Stream<DocumentSnapshot> firestoreInstance;
 
-
   getCurrentUser() async {
     final FirebaseUser user = await _auth.currentUser();
-    firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
+    firestoreInstance =
+        Firestore.instance.collection('boats').document(_uid).snapshots();
 
     _uid = user.uid;
 
-    firestoreInstance = Firestore.instance.collection('boats').document(_uid).snapshots();
+    firestoreInstance =
+        Firestore.instance.collection('boats').document(_uid).snapshots();
   }
 
   @override
@@ -49,7 +50,9 @@ class _MyAdvertisements extends State<MyAdvertisements> {
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Advertisements'),
@@ -120,6 +123,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
               title: Text('Sign out'),
               onTap: () async {
                 await _auth.signOut();
+                Navigator.pushNamed(context, Wrapper.pageId);
               },
             ),
           ],
@@ -132,7 +136,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
           if (!snapshot.hasData) {
             return Loading();
           } else {
-              return ListView.builder(
+            return ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
@@ -170,10 +174,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
                     );
                   },
                   child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     height: 350.0,
                     child: Padding(
                       padding: EdgeInsets.only(top: 20.0, bottom: 8.0),
@@ -189,10 +190,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
+                                  width: MediaQuery.of(context).size.width,
                                   height: 200.0,
                                   child: Image.network(
                                     document['image'],
@@ -204,7 +202,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       document['title'],
@@ -233,7 +231,7 @@ class _MyAdvertisements extends State<MyAdvertisements> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
 
 class Wrapper extends StatelessWidget {
+  static String pageId = 'WrapperPage';
   //THIS VARIABLE NEEDS TO BE DECLARED IN EVERY PAGE FOR EASY ROUTING (except auth related ones)
 
   @override

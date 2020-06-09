@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
+import 'package:hello_rectangle/screens/auth/sign_in.dart';
 import 'package:hello_rectangle/screens/profile/ProfileInfo.dart';
+import 'package:hello_rectangle/screens/wrapper.dart';
 import 'package:hello_rectangle/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_rectangle/shared/constants.dart';
@@ -87,6 +89,7 @@ class HomePage extends StatelessWidget {
               title: Text('Sign out'),
               onTap: () async {
                 await _auth.signOut();
+                Navigator.pushNamed(context, Wrapper.pageId);
               },
             ),
           ],

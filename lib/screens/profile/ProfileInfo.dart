@@ -11,6 +11,8 @@ import 'package:hello_rectangle/screens/home/home.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 
+import '../wrapper.dart';
+
 class ProfileInfo extends StatefulWidget {
   //MANDATORY VARIABLE IN EVERY PAGE FOR ROUTING PURPOSES
   static String pageId = 'profileInfoPage';
@@ -48,7 +50,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
       _uid = user.uid;
     });
 
-    firestoreInstance = Firestore.instance.collection('users').document(_uid).snapshots();
+    firestoreInstance =
+        Firestore.instance.collection('users').document(_uid).snapshots();
   }
 
   Future getImage() async {
@@ -154,6 +157,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
               title: Text('Sign out'),
               onTap: () async {
                 await _auth.signOut();
+                Navigator.pushNamed(context, Wrapper.pageId);
               },
             ),
           ],

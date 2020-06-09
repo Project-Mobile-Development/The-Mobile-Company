@@ -196,6 +196,7 @@ class _RegisterState extends State<Register> {
                               children: <Widget>[
                                 new Expanded(
                                   child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     textAlign: TextAlign.left,
                                     decoration: InputDecoration(
                                       enabledBorder: new UnderlineInputBorder(
@@ -247,6 +248,7 @@ class _RegisterState extends State<Register> {
                               children: <Widget>[
                                 new Expanded(
                                   child: TextFormField(
+                                    keyboardType: TextInputType.emailAddress,
                                     textAlign: TextAlign.left,
                                     decoration: InputDecoration(
                                       enabledBorder: new UnderlineInputBorder(

@@ -1,12 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_rectangle/screens/auth/register.dart';
-import 'package:hello_rectangle/services/auth.dart';
 import 'package:hello_rectangle/shared/constants.dart';
 import 'package:hello_rectangle/shared/loading.dart';
-import 'package:hello_rectangle/Widgets/RoundedButton.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class ResetPassword extends StatefulWidget {
   static String pageId = 'ResetPassword';

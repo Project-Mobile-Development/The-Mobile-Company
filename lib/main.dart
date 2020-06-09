@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hello_rectangle/Pages/MyAdvertisements.dart';
 import 'package:hello_rectangle/Pages/boat_listing.dart';
 import 'package:hello_rectangle/Pages/boat_overview_page.dart';
-import 'package:hello_rectangle/Pages/reset_password_page.dart';
+import 'package:hello_rectangle/screens/auth/reset_password_page.dart';
+import 'package:hello_rectangle/screens/auth/sign_in.dart';
 import 'package:hello_rectangle/screens/home/home.dart';
 import 'package:hello_rectangle/screens/profile/ProfileInfo.dart';
 import 'package:hello_rectangle/screens/wrapper.dart';
@@ -35,8 +36,8 @@ class MyApp extends StatelessWidget {
           BoatListing.pageId: (context) => BoatListing(),
           BoatOverviewScreen.pageId: (context) => BoatOverviewScreen(),
           MyAdvertisements.pageId: (context) => MyAdvertisements(),
-          ResetPassword.pageId: (context) => ResetPassword()
-          //HomeScreenOLD.pageId: (context) => HomeScreenOLD(),
+          ResetPassword.pageId: (context) => ResetPassword(),
+          Wrapper.pageId: (context) => Wrapper()
         },
       ),
     );
