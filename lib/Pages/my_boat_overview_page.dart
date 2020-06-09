@@ -76,7 +76,9 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -112,7 +114,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: MediaQuery.of(context).size.height * 1.3,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 1.3,
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
@@ -178,7 +183,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -200,7 +208,8 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                         ),
                                       ),
                                       initialValue: title,
-                                      validator: (val) => val.isEmpty
+                                      validator: (val) =>
+                                      val.isEmpty
                                           ? 'Enter title'
                                           : null,
                                       onChanged: (val) {
@@ -230,7 +239,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -252,7 +264,8 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                         ),
                                       ),
                                       initialValue: description,
-                                      validator: (val) => val.isEmpty
+                                      validator: (val) =>
+                                      val.isEmpty
                                           ? 'Enter description'
                                           : null,
                                       onChanged: (val) {
@@ -282,7 +295,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -304,7 +320,8 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                         ),
                                       ),
                                       initialValue: duration,
-                                      validator: (val) => val.isEmpty
+                                      validator: (val) =>
+                                      val.isEmpty
                                           ? 'Enter a duration'
                                           : null,
                                       onChanged: (val) {
@@ -334,7 +351,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -385,7 +405,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -436,7 +459,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                               ],
                             ),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 40.0, right: 40.0),
                               alignment: Alignment.center,
@@ -470,7 +496,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                             ),
                             Divider(height: 24.0, color: Colors.white),
                             new Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               margin: const EdgeInsets.only(
                                   left: 30.0, right: 30.0, top: 50.0),
                               alignment: Alignment.center,
@@ -492,7 +521,10 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                                   (transaction) async {
                                                 await transaction.set(
                                                     Firestore.instance
-                                                        .collection("boats").document(boat.documentID.toString()),
+                                                        .collection("boats")
+                                                        .document(
+                                                        boat.documentID
+                                                            .toString()),
                                                     {
                                                       'image': image,
                                                       'userId': uid,
@@ -520,6 +552,51 @@ class _MyBoatOverviewScreenState extends State<MyBoatOverviewScreen> {
                                             new Expanded(
                                               child: Text(
                                                 "SAVE",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                    FontWeight.bold),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  new Expanded(
+                                    child: new FlatButton(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                      ),
+                                      color: Colors.red,
+                                      onPressed: () async {
+                                        if (_formKey.currentState.validate()) {
+                                          Firestore.instance.runTransaction(
+                                                  (transaction) async {
+                                                Firestore.instance
+                                                    .collection("boats")
+                                                    .document(
+                                                    boat.documentID.toString())
+                                                    .delete();
+                                              });
+                                          Navigator.pushNamed(
+                                              context, MyAdvertisements.pageId);
+                                        }
+                                      },
+                                      child: new Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0,
+                                          horizontal: 20.0,
+                                        ),
+                                        child: new Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            new Expanded(
+                                              child: Text(
+                                                "DELETE",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: Colors.white,
