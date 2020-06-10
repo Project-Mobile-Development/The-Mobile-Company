@@ -21,7 +21,6 @@ class DatabaseService {
       'email': email,
       'phoneNumber': phoneNumber,
       'tempProfileImage': tempProfileImage,
-//      'profileImage': profileImage,
     });
   }
 

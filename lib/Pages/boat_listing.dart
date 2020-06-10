@@ -30,64 +30,14 @@ class _BoatListingState extends State<BoatListing> {
 
   String title = '';
   String description = '';
-
-  String _uid = '';
-
   String startingTime = '';
   String duration = '';
   String boatCapacity = '';
   String boatImage = '';
   String price = '';
   String location = '';
-  String _url = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  getCurrentUser() async {
-    final FirebaseUser user = await _auth.currentUser();
-    final uid = user.uid;
-
-    setState(() {
-      _uid = uid;
-    });
-  }
-
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-      uploadPic();
-    });
-  }
-
-  Future uploadPic() async {
-    //TO MAKE IT MORE READABLE
-    String fileName = basename(_image.path) + ".jpg";
-
-    //GETTING THE FILE REFERENCE
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    //PUT THE FILE INTO FIREBASE
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    //CHECK IF IT IS COMPLETED OR NOT
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-
-    String url = (await firebaseStorageRef.getDownloadURL()).toString();
-
-    boatImage = url;
-  }
-
-  Widget showImage() {
-    uploadPic();
-    return FutureBuilder<File>(
-      future: imageFile,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        return (_image != null)
-            ? Image.file(_image, fit: BoxFit.fill)
-            : Center(child: Text('Pick image'));
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -531,6 +481,43 @@ class _BoatListingState extends State<BoatListing> {
           ],
         ),
       ),
+    );
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      uploadPic();
+    });
+  }
+
+  Future uploadPic() async {
+    //TO MAKE IT MORE READABLE
+    String fileName = basename(_image.path) + ".jpg";
+
+    //GETTING THE FILE REFERENCE
+    StorageReference firebaseStorageRef =
+    FirebaseStorage.instance.ref().child(fileName);
+    //PUT THE FILE INTO FIREBASE
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    //CHECK IF IT IS COMPLETED OR NOT
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+    String url = (await firebaseStorageRef.getDownloadURL()).toString();
+
+    boatImage = url;
+  }
+
+  Widget showImage() {
+    uploadPic();
+    return FutureBuilder<File>(
+      future: imageFile,
+      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+        return (_image != null)
+            ? Image.file(_image, fit: BoxFit.fill)
+            : Center(child: Text('Pick image'));
+      },
     );
   }
 }
